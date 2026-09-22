@@ -1,0 +1,37 @@
+# Dependencies and generated output
+node_modules/
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+
+# Local configuration and hosting links
+.env
+.env.*
+!.env.example
+.vercel/
+.supabase/
+
+# Credentials, databases, exports and operational artifacts
+*.pem
+*.key
+*.p12
+*.pfx
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.bak
+*.log
+work/
+outputs/
+backups/
+uploads/
+playwright-report/
+test-results/
+
+# Local editor and operating-system files
+.DS_Store
+.vscode/
+.idea/

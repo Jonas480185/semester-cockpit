@@ -1,0 +1,52 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Length 1129 >>
+stream
+0.965 0.957 0.99 rg 0 720 595 122 re f
+0.40 0.31 0.70 rg
+BT /F1 11 Tf 48 792 Td (SEMESTER COCKPIT / DEMO) Tj ET
+BT /F1 23 Tf 48 754 Td (SQL: Joins verstehen) Tj ET
+0.23 0.23 0.30 rg
+BT /F1 12 Tf 48 688 Td (Lernziel: Die Ergebnismenge einer Abfrage nachvollziehen.) Tj ET
+BT /F1 11 Tf 48 650 Td (Fiktive Tabelle: artikel) Tj ET
+BT /F1 11 Tf 48 625 Td (id | bezeichnung | kategorie_id) Tj ET
+BT /F1 11 Tf 48 600 Td (1  | Notizbuch   | 10) Tj ET
+BT /F1 11 Tf 48 575 Td (2  | Stift       | 10) Tj ET
+BT /F1 11 Tf 48 550 Td (3  | Kalender    | NULL) Tj ET
+BT /F1 11 Tf 48 525 Td () Tj ET
+BT /F1 11 Tf 48 500 Td (Fiktive Tabelle: kategorie) Tj ET
+BT /F1 11 Tf 48 475 Td (id | name) Tj ET
+BT /F1 11 Tf 48 450 Td (10 | Schreibwaren) Tj ET
+BT /F1 11 Tf 48 425 Td () Tj ET
+BT /F1 11 Tf 48 400 Td (1. Formuliere einen INNER JOIN und einen LEFT JOIN.) Tj ET
+BT /F1 11 Tf 48 375 Td (2. Erklaere, warum sich die Zeilenanzahl unterscheiden kann.) Tj ET
+BT /F1 11 Tf 48 350 Td (3. Welche Ausgabe erwartest du jeweils fuer Kalender?) Tj ET
+0.5 0.5 0.55 rg
+BT /F1 9 Tf 48 48 Td (Fiktive Beispielunterlage. Kein Hochschulskript. Lizenz: MIT.) Tj ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000311 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1492
+%%EOF

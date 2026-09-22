@@ -1,0 +1,22 @@
+export const materialTypes = ["Vorlesung/Skript", "Übung", "Lösung", "Altklausur", "Sonstiges"] as const;
+export type MaterialType = typeof materialTypes[number];
+export const MATERIAL_BUCKET = "semester-materials";
+export const MAX_PDF_BYTES = 20 * 1024 * 1024;
+export const DOWNLOAD_SECONDS = 300;
+export type Material = {
+  id: string;
+  moduleId: string;
+  title: string;
+  documentType: MaterialType;
+  semester: string;
+  description: string;
+  relatedMaterialId: string | null;
+  fileName: string;
+  size: number;
+  mimeType: "application/pdf";
+  sha256: string | null;
+  state: "pending" | "ready";
+  version: number;
+  createdAt: string;
+  updatedAt: string;
+};
