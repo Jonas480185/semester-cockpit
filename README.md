@@ -25,6 +25,8 @@ Die letzten beiden Punkte verwenden in einer eingerichteten privaten Instanz das
 
 ## Demo und Screenshots
 
+Die Oberfläche bietet einen hellen und einen dunklen Modus entsprechend der Systemeinstellung, eine kompakte mobile Navigation und klar gegliederte Lernblöcke. Die Schrift Geist wird beim Build geladen und anschließend von der Anwendung selbst ausgeliefert.
+
 Die Demo startet ohne Konto, Datenbank oder Zugangsschlüssel unter `/demo`. Alle Module, Termine, Lernstände und Notizen sind fiktiv. Änderungen betreffen ausschließlich den Zustand im Arbeitsspeicher des Browsers. Neu laden oder „Demo zurücksetzen“ stellt die Fixtures wieder her; es besteht keine Verbindung zu einer privaten Instanz. Die verlinkten Beispiel-PDFs sind eigens erstellte, fiktive Übungsunterlagen. Private Originalunterlagen werden nicht mitgeliefert.
 
 ### Heute
@@ -103,6 +105,8 @@ npm start
 ```
 
 Diese Befehle bauen und starten dieselbe Anwendung im Production-Build; das ist keine Verbindung zu einer produktiven Datenbank. Der Betriebsmodus entscheidet über die verfügbaren Funktionen.
+
+Beim ersten Build benötigt `next/font` Netzzugang zu Google Fonts, um Geist und Geist Mono herunterzuladen. Beim späteren Aufruf der Anwendung werden diese Schriften vom eigenen Host geladen.
 
 ## Konfiguration
 

@@ -46,6 +46,9 @@ const labels: Record<string, string> = {
   endDate: "Ende",
   targetMinutes: "Festes Zeitbudget (Minuten)",
 };
+// Presentation order only: identity first, then scheduling, classification and notes.
+const fieldOrder = ["title", "code", "moduleId", "topicId", "taskId", "description", "goal", "instructions", "color", "credits", "examDate", "target", "date", "time", "minutes", "startDate", "endDate", "targetMinutes", "kind", "status", "priority", "relevance", "position", "plannedStart", "plannedEnd", "lastPracticed", "score", "independent", "interval", "assistance", "difficulty", "nextStep", "notes", "learningNotes"];
+const rank = (key: string) => (fieldOrder.indexOf(key) + 1 || fieldOrder.length + 1);
 const names: Record<string, string> = {
   modules: "Modul",
   topics: "Thema",
@@ -251,6 +254,7 @@ export function Editor({
         <div className="form-fields">
           {Object.entries(v)
             .filter(([k]) => k !== "id" && k !== "recordedAt" && !Object.keys(emptySource).includes(k))
+            .sort(([a], [b]) => rank(a) - rank(b))
             .map(([k, val]) => (
               <label
                 key={k}
