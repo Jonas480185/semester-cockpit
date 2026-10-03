@@ -1,8 +1,8 @@
 # Optionale private Instanz
 
-Für das Ausprobieren und die öffentliche Portfolio-Demo ist diese Einrichtung nicht nötig. Die Demo läuft mit `COCKPIT_MODE=demo` und ohne Cloud-Zugang.
+Für das Ausprobieren und die öffentliche Demo ist diese Einrichtung nicht nötig. Die Demo läuft mit `COCKPIT_MODE=demo` und ohne Cloud-Zugang.
 
-Die private Betriebsart enthält den ursprünglichen authentifizierten Backend-Ablauf. Sie ist für eine eigene, getrennte Installation gedacht. Eine bestehende Produktionsinstanz wird durch die Einrichtung dieses Repositorys nicht verbunden, verändert oder migriert.
+Die private Betriebsart enthält den authentifizierten Backend-Ablauf. Sie ist für eine eigene, getrennte Installation gedacht.
 
 ## Voraussetzungen
 
@@ -11,7 +11,7 @@ Die private Betriebsart enthält den ursprünglichen authentifizierten Backend-A
 - Eine bestätigte E-Mail-Adresse für die besitzende Person.
 - Serverseitig verwaltete Credentials aus diesem neuen Projekt.
 
-Vor jedem Datenbank- oder Storage-Einrichtungsschritt muss die Zielumgebung eindeutig geprüft werden. Verwende keinen Link und keine Zugangsdaten einer bestehenden produktiven Anwendung. SQL-Dateien im Repository sind Strukturbeschreibungen für eine neue Instanz; sie werden bei Demo-Start, Build oder Deployment nicht automatisch auf eine entfernte Datenbank angewendet.
+Die SQL-Dateien im Repository beschreiben die Struktur einer neuen Instanz. Sie werden bei Demo-Start, Build oder Deployment nicht automatisch auf eine entfernte Datenbank angewendet.
 
 ## Einrichtung
 
@@ -45,4 +45,4 @@ Die folgenden Schritte benötigen die neue isolierte Instanz und sind nicht durc
 - Neue Fachchat-Sitzung findet Thema, Quelle, Rückmeldung und nächsten Schritt ohne alten Chatverlauf.
 - Widerrufene Verbindungen können keine neuen Zugriffe erhalten; zuvor ausgegebene signierte Links laufen spätestens nach ihrer Gültigkeit ab.
 
-Keine dieser Prüfungen soll gegen eine bereits genutzte produktive Datenbank laufen.
+Diese Prüfungen gehören in eine neue, isolierte Instanz, nicht in eine produktiv genutzte Datenbank.

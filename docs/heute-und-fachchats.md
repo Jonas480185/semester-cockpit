@@ -1,6 +1,6 @@
 # Heute und Fachchats
 
-Dieses Dokument beschreibt das vollständige Verhalten einer eingerichteten privaten Instanz. Die öffentliche Portfolio-Demo verwendet nur fiktive lokale Daten; MCP, private Dateiabrufe und persistente Rückmeldungen sind dort nicht aktiv. Verlinkte Demo-PDFs sind öffentliche, eigens erstellte Beispiele.
+Dieses Dokument beschreibt das vollständige Verhalten einer eingerichteten privaten Instanz. Die öffentliche Demo verwendet nur fiktive lokale Daten; MCP, private Dateiabrufe und persistente Rückmeldungen sind dort nicht aktiv. Verlinkte Demo-PDFs sind öffentliche, eigens erstellte Beispiele.
 
 Das Cockpit plant, die Fachchats begleiten das Lernen. Auf **Heute** stehen Fach, Thema, Zeit, Dauer, Lernziel und vorhandene Quellen. „Für Fachchat kopieren“ enthält Modul-, Themen- und Aufgaben-ID. Der Chat liest den aktuellen Kontext selbst über MCP. Nach dem Lernen speichert er eine kurze Rückmeldung und überprüft sie durch erneutes Lesen. **Heute** zeigt offene Blöcke von heute, sonst bis zu drei nächste Blöcke. Erledigte Blöcke verdecken den nächsten Termin nicht. Unter „Nach dem Fachchat“ stehen gespeicherte Rückmeldungen und die daraus übernommenen nächsten Schritte; fehlende blockbezogene Rückmeldungen werden neutral angezeigt.
 
