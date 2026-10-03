@@ -6,7 +6,7 @@ Name: `semester-cockpit`
 
 Beschreibung:
 
-> Lernorganisation mit Next.js und TypeScript: Semesterplanung, Themen, Lernblöcke und Lernstand. Mit isolierter Demo und MCP-Schnittstelle für Fachchats in der privaten Instanz.
+> Agent-first Lernplattform mit Next.js und TypeScript: speichert Semesterplan, Themen und Lernstand und stellt sie KI-Fachchats über eine eigene MCP-Schnittstelle bereit. Mit isolierter Demo.
 
 Topics:
 
@@ -19,7 +19,7 @@ Als Website-Link eignet sich ausschließlich die URL einer getrennt bereitgestel
 
 ## Kurze Portfolio-Story
 
-Das Projekt entstand im eigenen Studium: Termine, Unterlagen und Lernstand waren auf mehrere Werkzeuge und Chats verteilt. Semester Cockpit bündelt diese Informationen und macht daraus einen konkreten Tagesplan. Die private Anwendung wird genutzt; dieses Repository zeigt die technische Umsetzung anhand fiktiver Daten.
+Das Projekt entstand im eigenen Studium: Termine, Unterlagen und Lernstand waren auf mehrere Werkzeuge und Chats verteilt. Semester Cockpit bündelt diese Informationen, macht daraus einen konkreten Tagesplan und dient KI-Chats als gemeinsames Gedächtnis. Die private Anwendung wird genutzt; dieses Repository zeigt die technische Umsetzung anhand fiktiver Daten.
 
 Die wichtige Produktentscheidung ist die Trennung von Organisation und Lernen. Das Cockpit speichert Themen, Budgets, Nachweise und nächste Schritte. Fachchats übernehmen Erklärungen und Korrektur und können über MCP auf denselben Kontext zugreifen. Erledigte Aufgaben werden nicht automatisch mit Verständnis gleichgesetzt.
 

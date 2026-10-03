@@ -2,7 +2,7 @@
 
 **Aus Semesterstoff wird ein konkreter Lernplan für heute.**
 
-Semester Cockpit ist eine Web-Anwendung für die Organisation eines Studiums: Module, Themen, Prüfungstermine, Lernblöcke und Rückmeldungen laufen in einer gemeinsamen Datenstruktur zusammen. Das Projekt entstand aus dem eigenen Studienalltag und wird als private Anwendung tatsächlich genutzt. Dieses Repository enthält den bereinigten Quellcode und eine eigenständige Demo mit vollständig fiktiven Daten.
+Semester Cockpit ist eine Web-Anwendung für die Organisation eines Studiums: Module, Themen, Prüfungstermine, Lernblöcke und Rückmeldungen laufen in einer gemeinsamen Datenstruktur zusammen. Gedacht ist sie nicht als Ersatz für einen Lern-Chatbot, sondern als dessen Gedächtnis: Die App speichert den Lernstand, und KI-Chats greifen über eine eigene MCP-Schnittstelle darauf zu. Das Projekt entstand aus dem eigenen Studienalltag und wird als private Anwendung tatsächlich genutzt. Dieses Repository enthält den bereinigten Quellcode und eine eigenständige Demo mit vollständig fiktiven Daten.
 
 Die zentrale Frage lautet: **Kann ich das Thema selbstständig anwenden?** Ein erledigter Lernblock zählt deshalb als bearbeitet, aber noch nicht als nachgewiesenes Können.
 
@@ -11,6 +11,32 @@ Die zentrale Frage lautet: **Kann ich das Thema selbstständig anwenden?** Ein e
 Unterlagen, Termine und Lernfortschritt verteilen sich schnell auf Kalender, Dateien, Notizen und einzelne Chats. Daraus ergibt sich noch kein realistischer Tagesplan. Zusätzlich geht beim Wechsel zwischen Fachchats der aktuelle Lernstand verloren.
 
 Das Cockpit übernimmt die Organisation: Was steht an, für welches Fach, mit welchem Ziel und in welchem Zeitbudget? Separate Fachchats können über MCP den gespeicherten Kontext und passende Originalunterlagen abrufen und nach einer Lerneinheit eine kurze Rückmeldung speichern. Erklärungen, Aufgabenauswahl und Korrektur bleiben im Fachchat.
+
+## Agent-first: das Cockpit als Gedächtnis für Fachchats
+
+Ich lerne viel in KI-Chats, ein eigener Chat pro Fach. Das Problem daran: Ein Chat weiß nur, was in seinem Verlauf steht. Welche Themen ich schon sicher kann, was die Klausur ist und was ich beim letzten Mal nicht verstanden habe, muss ich jedes Mal neu erzählen. Deshalb habe ich die Anwendung von Anfang an so gebaut, dass nicht nur ich, sondern auch Agenten ein vollwertiger Nutzer sind.
+
+Das Cockpit ist dabei die zentrale Ablage und der Chat der Ort, an dem gelernt wird:
+
+1. **Kontext lesen.** Ein neuer Fachchat ruft `semester_module_context` auf und bekommt Lernregeln, Themen, den aktuellen Plan, Quellenverweise, Nachweise und die letzte Rückmeldung. Ich muss nichts mehr einfügen oder zusammenfassen.
+2. **Originalunterlagen abrufen.** Mit `semester_material_download` holt der Chat die passende PDF. Die Datei liegt privat im Objektspeicher und wird nur über einen Link bereitgestellt, der nach 300 Sekunden abläuft.
+3. **Lernen im Chat.** Erklärungen, Aufgabenauswahl und Korrektur bleiben im Chat. Die App ersetzt das nicht.
+4. **Rückmeldung speichern.** Am Ende schreibt der Chat mit `semester_module_feedback` zurück: tatsächliche Lernzeit, ob Hilfe nötig war, was schwierig war und was der nächste Schritt ist. Danach liest er den Eintrag noch einmal und prüft, ob er wirklich gespeichert wurde.
+
+Der nächste Chat, auch zu einem anderen Zeitpunkt oder bei einem anderen Anbieter, beginnt dann beim gespeicherten Stand statt bei null.
+
+**Was dafür gebaut ist**
+
+- Ein MCP-Server unter `/api/mcp` mit 14 Werkzeugen für Lesen, Analyse, Planung, Rückmeldungen und Materialien. Die Anmeldung läuft über OAuth mit Freigabe oder über einen Agent-Schlüssel mit eingeschränkten Rechten.
+- Eine kleine Brücke ohne Abhängigkeiten ([`public/semester-mcp.mjs`](public/semester-mcp.mjs)) für Clients, die MCP nur über stdio sprechen.
+- Ein [Agentenleitfaden](public/agent-guide.md), der die Werkzeuge und den vorgesehenen Ablauf beschreibt.
+- Dieselben Datenmodelle und Prüfungen für Oberfläche, REST-API und MCP. Ein Agent darf nichts speichern, was die Oberfläche ablehnen würde.
+
+Weil mehrere Chats parallel schreiben können, sind die Schreibvorgänge entsprechend abgesichert: Revisionen erkennen veraltete Stände, Idempotenzschlüssel verhindern doppelte Einträge bei Wiederholungen, und die gezielten Fachchat-Werkzeuge prüfen, dass ein Chat nur sein eigenes Modul und dessen Wochenbudget ändert.
+
+Zwei Entscheidungen waren mir wichtig. Erstens zählt eine erledigte Aufgabe nicht als Können: Ein Thema gilt erst als sicher, wenn es einen Selbsttest ohne Hilfe mit mindestens 80 Prozent gibt. Zweitens erfindet das System nichts. Unbekannte Lernzeiten bleiben leer, und Themen, die noch nicht bekannt sind, werden nicht geraten.
+
+Die öffentliche Demo zeigt Oberfläche und Datenmodell mit fiktiven Daten. MCP, Datei-Upload und gespeicherte Rückmeldungen sind dort bewusst abgeschaltet, sie gehören zur privaten Instanz. Die [Doku zu Heute und Fachchats](docs/heute-und-fachchats.md) beschreibt den Ablauf im Detail.
 
 ## Funktionen
 
