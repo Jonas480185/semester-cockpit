@@ -6,7 +6,7 @@ Die öffentliche Demo ist eine eigenständige Betriebsart mit fiktiven, lokalen 
 
 Eine öffentliche Demo darf keine Credentials, Hosting-Verknüpfungen oder Datenexporte einer privaten Instanz enthalten. `COCKPIT_MODE=demo` ist keine Einladung, echte Zugangsschlüssel im Projekt zu hinterlegen: Sie werden für die Demo nicht benötigt und dürfen dort nicht gesetzt werden.
 
-Für Demo- und Testarbeiten sind bestehende Produktionsdatenbanken tabu. Keine Seeds, Migrationen, Reset-, Delete-, Truncate- oder Drop-Operationen gegen bestehende Produktivsysteme. Die lokale Testsuite verwendet isolierte PGlite-Instanzen und lokale Fixtures. Cloud-Integrationstests gehören ausschließlich in eine separate, ausdrücklich eingerichtete Testinstanz mit eigenen Credentials.
+Die lokale Testsuite verwendet isolierte PGlite-Instanzen und lokale Fixtures. Cloud-Integrationstests gehören in eine separate Testinstanz mit eigenen Credentials, nie in ein Produktivsystem.
 
 ## Optionale private Instanz
 
