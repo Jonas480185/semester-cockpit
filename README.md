@@ -25,29 +25,36 @@ Die letzten beiden Punkte verwenden in einer eingerichteten privaten Instanz das
 
 ## Demo und Screenshots
 
-Die Oberfläche bietet einen hellen und einen dunklen Modus entsprechend der Systemeinstellung, eine kompakte mobile Navigation und klar gegliederte Lernblöcke. Die Schrift Geist wird beim Build geladen und anschließend von der Anwendung selbst ausgeliefert.
+Die Oberfläche bietet einen hellen und einen dunklen Modus entsprechend der Systemeinstellung, eine kompakte mobile Navigation und klar gegliederte Lernblöcke. Das Design ist bewusst zurückhaltend: neutrale Flächen, ein einzelner Blauton für Aktionen und Auswahl, Modulfarben nur als Orientierung. Die Schrift Geist wird beim Build geladen und anschließend von der Anwendung selbst ausgeliefert.
 
 Die Demo startet ohne Konto, Datenbank oder Zugangsschlüssel unter `/demo`. Alle Module, Termine, Lernstände und Notizen sind fiktiv. Änderungen betreffen ausschließlich den Zustand im Arbeitsspeicher des Browsers. Neu laden oder „Demo zurücksetzen“ stellt die Fixtures wieder her; es besteht keine Verbindung zu einer privaten Instanz. Die verlinkten Beispiel-PDFs sind eigens erstellte, fiktive Übungsunterlagen. Private Originalunterlagen werden nicht mitgeliefert.
 
 ### Heute
 
-![Heute: Lernblöcke mit Lernziel, Zeitbudget und nächstem Schritt](docs/images/heute.jpg)
+![Heute: Lernblöcke mit Lernziel, Zeitbudget und nächstem Schritt](docs/images/heute.png)
 
 ### Semesterübersicht
 
-![Semesterübersicht: fiktive Module, Klausurtermine und nachgewiesener Lernstand](docs/images/semesteruebersicht.jpg)
+![Semesterübersicht: fiktive Module, Klausurtermine und nachgewiesener Lernstand](docs/images/semesteruebersicht.png)
 
 ### Module und Themen
 
-![Modulansicht: bestätigtes Können, aktueller Schwerpunkt und Themenausblick](docs/images/module.jpg)
+![Modulansicht: bestätigtes Können, aktueller Schwerpunkt und Themenausblick](docs/images/module.png)
 
 ### Lernplan
 
-![Lernplan: Wochenbudget und konkrete Lernblöcke](docs/images/lernplan.jpg)
+![Lernplan: Wochenbudget und konkrete Lernblöcke](docs/images/lernplan.png)
 
 ### Wissensstand
 
-![Wissensstand: Bearbeitungsstand und selbstständig bestätigte Themen](docs/images/wissensstand.jpg)
+![Wissensstand: Bearbeitungsstand und selbstständig bestätigte Themen](docs/images/wissensstand.png)
+
+### Dunkler Modus und mobile Ansicht
+
+<p>
+  <img src="docs/images/heute-dark.png" alt="Heute im dunklen Modus" width="62%">
+  <img src="docs/images/heute-mobil.png" alt="Heute in der mobilen Ansicht" width="22%">
+</p>
 
 ## Architektur und Entscheidungen
 
