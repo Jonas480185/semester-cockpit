@@ -5,10 +5,10 @@ import type { Material } from '../material-model';
 export function createDemoSnapshot(date = today()): Snapshot {
   const week = monday(date);
   const modules = [
-    { id:'demo-math', title:'Mathematik', code:'MAT', color:'#7661d4', credits:6, examDate:offsetDate(date,55), target:75, learningNotes:'Jeden Rechenschritt begründen. Erst selbst versuchen, dann einen Hinweis nutzen. Fiktive Lernregel.' },
-    { id:'demo-db', title:'Datenbanken', code:'DB', color:'#4b91a8', credits:5, examDate:offsetDate(date,61), target:80, learningNotes:'SQL-Abfragen zuerst selbst formulieren und anschließend mit kleinen Beispieldaten prüfen.' },
-    { id:'demo-se', title:'Software Engineering', code:'SE', color:'#ce995b', credits:5, examDate:offsetDate(date,68), target:75, learningNotes:'Begriffe immer an einem kleinen Softwareprojekt erklären. Weitere Inhalte folgen im Semester.' },
-    { id:'demo-accounting', title:'Rechnungswesen', code:'RW', color:'#559786', credits:5, examDate:offsetDate(date,72), target:70, learningNotes:'Buchungssätze mit Begründung von Soll und Haben notieren.' },
+    { id:'demo-math', title:'Mathematik', code:'MAT', color:'#3a66c2', credits:6, examDate:offsetDate(date,55), target:75, learningNotes:'Jeden Rechenschritt begründen. Erst selbst versuchen, dann einen Hinweis nutzen. ' },
+    { id:'demo-db', title:'Datenbanken', code:'DB', color:'#2f8a82', credits:5, examDate:offsetDate(date,61), target:80, learningNotes:'SQL-Abfragen zuerst selbst formulieren und anschließend mit kleinen Beispieldaten prüfen.' },
+    { id:'demo-se', title:'Software Engineering', code:'SE', color:'#b7791f', credits:5, examDate:offsetDate(date,68), target:75, learningNotes:'Begriffe immer an einem kleinen Softwareprojekt erklären. Weitere Inhalte folgen im Semester.' },
+    { id:'demo-accounting', title:'Rechnungswesen', code:'RW', color:'#7a6bb0', credits:5, examDate:offsetDate(date,72), target:70, learningNotes:'Buchungssätze mit Begründung von Soll und Haben notieren.' },
   ];
   const catalogue: Array<[string,string,string,Topic['status'],number]> = [
     ['math-basics','demo-math','Funktionen & Gleichungen','sicher',1],
@@ -54,5 +54,5 @@ export function createDemoSnapshot(date = today()): Snapshot {
   };
 }
 export function createDemoMaterials(date=today()):Material[] {
-  return ['math','db'].map((key,i)=>({id:'demo-material-'+key,moduleId:'demo-'+key,title:i?'SQL · Kleine Beispieldatenbank':'Gleichungssysteme · Beispielblatt',documentType:'Übung',semester:'Fiktives Demosemester',description:'Selbst erstellte Beispielunterlage. Keine echten Hochschulunterlagen.',relatedMaterialId:null,fileName:'beispiel-'+key+'.pdf',size:i?1676:1561,mimeType:'application/pdf',sha256:null,state:'ready',version:1,createdAt:date+'T08:00:00.000Z',updatedAt:date+'T08:00:00.000Z'}));
+  return ['math','db'].map((key,i)=>({id:'demo-material-'+key,moduleId:'demo-'+key,title:i?'SQL · Kleine Beispieldatenbank':'Gleichungssysteme · Beispielblatt',documentType:'Übung',semester:'Demosemester WS 2026/27',description:'Selbst erstellte Beispielunterlage. Keine echten Hochschulunterlagen.',relatedMaterialId:null,fileName:'beispiel-'+key+'.pdf',size:i?1676:1561,mimeType:'application/pdf',sha256:null,state:'ready',version:1,createdAt:date+'T08:00:00.000Z',updatedAt:date+'T08:00:00.000Z'}));
 }

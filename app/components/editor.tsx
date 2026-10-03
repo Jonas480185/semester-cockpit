@@ -69,7 +69,7 @@ function defaults(e: string, data: Snapshot): EditValues {
       modules: {
         title: "",
         code: "",
-        color: "#6955d8",
+        color: "#1f4fbf",
         credits: 5,
         examDate: null,
         target: 60,
