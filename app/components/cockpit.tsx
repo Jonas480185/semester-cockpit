@@ -433,7 +433,7 @@ export default function Cockpit({ demo = false }: { demo?: boolean }) {
       <aside className="sidebar" aria-label="Hauptnavigation">
         <Link className="brand" href={demo ? "/demo" : "/"} aria-label="Semester – zu Heute" onClick={(e) => { e.preventDefault(); navigate("Heute"); }}>
           <Image className="brand-mark" src="/semester-mark.png" alt="" width={32} height={32} priority />
-          <span className="brand-wordmark">semester<span className="brand-dot">.</span></span>
+          <span className="brand-wordmark">Semester Cockpit</span>
         </Link>
         <nav>
           {(["Lernen", "Überblick"] as const).map((group) => (
@@ -446,7 +446,7 @@ export default function Cockpit({ demo = false }: { demo?: boolean }) {
         <div className="sidebar-bottom">
           {navButton({ icon: Plug, label: "Agent & API", group: "Überblick" })}
           <div className="sidebar-sync">
-            <span>{demo ? "Fiktives Demosemester" : "Privater Lernraum"}{revision ? ` · Rev. ${revision}` : ""}</span>
+            <span>{demo ? "Demosemester WS 2026/27" : "Privater Lernraum"}{!demo && revision ? ` · Rev. ${revision}` : ""}</span>
             <button
               className="icon-button small"
               aria-label="Daten aktualisieren"
@@ -461,7 +461,7 @@ export default function Cockpit({ demo = false }: { demo?: boolean }) {
       <header className="mobile-bar">
         <Link className="brand" href={demo ? "/demo" : "/"} aria-label="Semester – zu Heute" onClick={(e) => { e.preventDefault(); navigate("Heute"); }}>
           <Image className="brand-mark" src="/semester-mark.png" alt="" width={28} height={28} />
-          <span className="brand-wordmark">semester<span className="brand-dot">.</span></span>
+          <span className="brand-wordmark">Semester Cockpit</span>
         </Link>
         <button className="icon-button" aria-label="Daten aktualisieren" onClick={refreshNow}>
           <RefreshCw size={18} />
