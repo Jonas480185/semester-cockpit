@@ -40,7 +40,7 @@ export function createDemoSnapshot(date = today()): Snapshot {
   const confirmed = topics.filter(t=>t.status==='sicher');
   return {
     modules,topics,tasks,
-    tests:confirmed.map((t,i)=>({id:'demo-proof-'+i,topicId:t.id,date:offsetDate(date,-3)+'T09:00:00.000Z',score:[90,85,88,82][i],independent:true,notes:'Fiktiver Selbsttest ohne Hilfe. Kein echter Leistungsnachweis.'})),
+    tests:confirmed.map((t,i)=>({id:'demo-proof-'+i,topicId:t.id,date:offsetDate(date,-3)+'T09:00:00.000Z',score:[90,85,88,82][i],independent:true,notes:'Selbsttest ohne Hilfe, Aufgaben ohne Musterlösung bearbeitet.'})),
     sessions:[
       {id:'demo-feedback-db',topicId:'demo-db-model',taskId:'demo-past-db',date:offsetDate(date,-2),minutes:40,assistance:'selbstständig',difficulty:'Keine offene Schwierigkeit im Beispiel.',nextStep:'SQL-Abfragen mit zwei verknüpften Tabellen üben.',notes:'Fiktive Fachchat-Rückmeldung.',recordedAt:offsetDate(date,-2)+'T14:45:00.000Z'},
       {id:'demo-feedback-math',topicId:'demo-math-linear',taskId:null,date:offsetDate(date,-1),minutes:35,assistance:'mit Hilfe',difficulty:'Vorzeichen bei der Zeilenumformung.',nextStep:'Jede Zeilenumformung kurz begründen und anschließend selbst prüfen.',notes:'Fiktive Fachchat-Rückmeldung.',recordedAt:offsetDate(date,-1)+'T10:00:00.000Z'},

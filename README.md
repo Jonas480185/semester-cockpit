@@ -52,8 +52,8 @@ Die Demo startet ohne Konto, Datenbank oder Zugangsschlüssel unter `/demo`. All
 ### Dunkler Modus und mobile Ansicht
 
 <p>
-  <img src="docs/images/heute-dark.png" alt="Heute im dunklen Modus" width="62%">
-  <img src="docs/images/heute-mobil.png" alt="Heute in der mobilen Ansicht" width="22%">
+  <img src="docs/images/heute-dark.png" alt="Heute im dunklen Modus" width="66%">
+  <img src="docs/images/heute-mobil.png" alt="Heute in der mobilen Ansicht" width="20%">
 </p>
 
 ## Architektur und Entscheidungen
