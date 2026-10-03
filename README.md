@@ -1,8 +1,10 @@
 # Semester Cockpit
 
+[![Checks](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml/badge.svg)](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml)
+
 **Aus Semesterstoff wird ein konkreter Lernplan für heute.**
 
-Semester Cockpit ist eine Web-Anwendung für die Organisation eines Studiums: Module, Themen, Prüfungstermine, Lernblöcke und Rückmeldungen laufen in einer gemeinsamen Datenstruktur zusammen. Gedacht ist sie nicht als Ersatz für einen Lern-Chatbot, sondern als dessen Gedächtnis: Die App speichert den Lernstand, und KI-Chats greifen über eine eigene MCP-Schnittstelle darauf zu. Das Projekt entstand aus dem eigenen Studienalltag und wird als private Anwendung tatsächlich genutzt. Dieses Repository enthält den bereinigten Quellcode und eine eigenständige Demo mit vollständig fiktiven Daten.
+Semester Cockpit ist eine Web-Anwendung für die Organisation eines Studiums: Module, Themen, Prüfungstermine, Lernblöcke und Rückmeldungen laufen in einer gemeinsamen Datenstruktur zusammen. Gedacht ist sie nicht als Ersatz für einen Lern-Chatbot, sondern als dessen Gedächtnis: Die App speichert den Lernstand, und KI-Chats greifen über eine eigene MCP-Schnittstelle darauf zu. Das Projekt entstand aus dem eigenen Studienalltag und wird als private Anwendung tatsächlich genutzt. Dieses Repository enthält den Quellcode und eine eigenständige Demo mit vollständig fiktiven Daten.
 
 Die zentrale Frage lautet: **Kann ich das Thema selbstständig anwenden?** Ein erledigter Lernblock zählt deshalb als bearbeitet, aber noch nicht als nachgewiesenes Können.
 
@@ -46,8 +48,6 @@ Die öffentliche Demo zeigt Oberfläche und Datenmodell mit fiktiven Daten. MCP,
 - **Lernstand:** bearbeitete Themen, Selbsttests, dokumentierte Lernzeit, offene Schwierigkeiten und Wiederholungen. Selbstständiges Können benötigt einen gesonderten Nachweis.
 - **Fachchat-Rückmeldungen:** Thema, tatsächliche Lernzeit, Hilfebedarf, Schwierigkeit und nächster Schritt bleiben unabhängig vom Chatverlauf gespeichert.
 - **Private Materialien:** PDFs pro Modul, Quellen bis auf Seiten- und Aufgabennummer sowie gezielter Agentenzugriff über kurzzeitig gültige Download-Links.
-
-Die letzten beiden Punkte verwenden in einer eingerichteten privaten Instanz das Backend. Die öffentliche Demo zeigt diese Abläufe mit Beispieldaten; sie bietet keine aktive MCP-Verbindung und keinen Datei-Upload.
 
 ## Demo und Screenshots
 
@@ -137,7 +137,7 @@ npm run build
 npm start
 ```
 
-Diese Befehle bauen und starten dieselbe Anwendung im Production-Build; das ist keine Verbindung zu einer produktiven Datenbank. Der Betriebsmodus entscheidet über die verfügbaren Funktionen.
+Das baut und startet die Anwendung im Production-Modus.
 
 Beim ersten Build benötigt `next/font` Netzzugang zu Google Fonts, um Geist und Geist Mono herunterzuladen. Beim späteren Aufruf der Anwendung werden diese Schriften vom eigenen Host geladen.
 
@@ -157,7 +157,7 @@ Beim ersten Build benötigt `next/font` Netzzugang zu Google Fonts, um Geist und
 
 Öffentliche Supabase-Client-Werte sind kein Ersatz für Zugriffskontrollen. Datenbank- und Server-Schlüssel gehören ausschließlich in die Serverkonfiguration. Die [Anleitung für eine private Instanz](docs/private-instance.md) beschreibt die zusätzlichen Voraussetzungen.
 
-## Development Commands
+## Befehle
 
 | Befehl | Funktion |
 | --- | --- |
@@ -168,7 +168,7 @@ Beim ersten Build benötigt `next/font` Netzzugang zu Google Fonts, um Geist und
 | `npm run typecheck` | TypeScript-Prüfung ohne Ausgabe |
 | `npm test` / `npm run test:local` | Lokale Tests mit isolierten Fixtures |
 
-Das Drizzle-Schema und die versionierten SQL-Migrationen bleiben als Datenmodell enthalten. Ein Generator-CLI ist nicht erforderlich und wird nicht mitgeliefert; für die Demo wird keine Migration ausgeführt.
+Das Drizzle-Schema und die SQL-Migrationen beschreiben das Datenmodell der privaten Instanz. Für die Demo wird keine Migration ausgeführt.
 
 Die lokale Testsuite entfernt Cloud-Credentials aus ihrer Umgebung und verwendet temporäre lokale Datenbanken. Sie prüft unter anderem Validierung, Zugriffskontrollen, Revisionen, Idempotenz, Fachchat-Rückmeldungen, Umplanung und Uploadclient-Abläufe. Echter Supabase-Storage und ein vollständiger OAuth-Ablauf eines externen Chat-Clients benötigen zusätzliche Integrationstests in einer separaten Testinstanz.
 
@@ -179,7 +179,7 @@ Die lokale Testsuite entfernt Cloud-Credentials aus ihrer Umgebung und verwendet
 3. Ausschließlich `COCKPIT_MODE=demo` setzen. Keine Supabase-Integration verknüpfen und keine Environment-Variablen einer privaten Anwendung übernehmen.
 4. `/demo` und die Isolation der Demo prüfen. Backend-Endpunkte müssen im Demo-Modus blockiert bleiben.
 
-Ein vorhandenes privates Hosting-Projekt oder eine vorhandene Datenbank wird hierfür nicht benötigt. Dieses Repository enthält weder deren Verknüpfung noch deren Zugangsdaten. Die Demo hat keinen Seed- oder Reset-Befehl für eine Datenbank.
+Die Demo braucht keine Datenbank und keinen Seed.
 
 ## Projektstruktur
 

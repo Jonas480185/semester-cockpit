@@ -1,6 +1,8 @@
 {
   "name": "semester-cockpit",
   "version": "1.0.0",
+  "description": "Lernorganisation für das Studium: Semesterplanung, Lernstand und eine MCP-Schnittstelle, über die KI-Fachchats auf denselben Kontext zugreifen.",
+  "license": "MIT",
   "private": true,
   "engines": {
     "node": ">=22.13.0"

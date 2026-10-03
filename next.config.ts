@@ -3,6 +3,7 @@ import { assertDemoEnvironment, isDemoDeployment } from "./lib/runtime-mode";
 assertDemoEnvironment();
 
 const nextConfig: NextConfig = {
+  agentRules: false,
   turbopack: { root: process.cwd() },
   outputFileTracingRoot: process.cwd(),
   async headers() {

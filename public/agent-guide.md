@@ -1,6 +1,6 @@
 # Semester Cockpit: Agentenleitfaden
 
-Dieser Leitfaden beschreibt eine **eingerichtete private Instanz**. Die öffentliche Portfolio-Demo zeigt fiktive Daten und stellt keinen aktiven MCP-Server, Upload oder Zugriff auf private PDFs bereit. Öffentlich verlinkte Beispiel-PDFs sind eigens erstellte fiktive Demo-Unterlagen. Ihre Backend-Endpunkte sind gesperrt.
+Dieser Leitfaden beschreibt eine **eingerichtete private Instanz**. Die öffentliche Demo zeigt fiktive Daten und stellt keinen aktiven MCP-Server, Upload oder Zugriff auf private PDFs bereit. Öffentlich verlinkte Beispiel-PDFs sind eigens erstellte fiktive Demo-Unterlagen. Ihre Backend-Endpunkte sind gesperrt.
 
 In einer privaten Instanz liegt der MCP-Endpunkt unter `/api/mcp`. Die Anmeldung erfolgt über OAuth mit Freigabe der besitzenden Person oder für autorisierte HTTP-Clients über `Authorization: Bearer <Agent-Schlüssel>`. Oberfläche und Agenten verwenden dieselben Daten und Validierungen. Zugangsschlüssel dürfen nicht in einen Chat, Prompt oder Screenshot kopiert werden.
 
