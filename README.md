@@ -5,10 +5,10 @@
   <img src="public/brand/semester-lockup-light.png" alt="Semester Cockpit" height="64">
 </picture>
 
-### Klarheit für dein Semester.
+### Semesterplanung und Lernstand
 
-Lernplanung, Themen und Fortschritt an einem Ort.<br>
-Dazu ein dauerhaftes Gedächtnis für deine KI-Fachchats.
+Module, Lernzeiten und Klausuren planen.<br>
+Lernergebnisse speichern und über MCP mit KI-Chats teilen.
 
 ![Next.js](https://img.shields.io/badge/Next.js_16-000000?logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React_19-149ECA?logo=react&logoColor=white)
@@ -18,125 +18,51 @@ Dazu ein dauerhaftes Gedächtnis für deine KI-Fachchats.
 ![MCP](https://img.shields.io/badge/MCP-Agenten_API-0F1B33)
 [![Checks](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml/badge.svg)](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml)
 
-[**Live-Demo öffnen**](https://semester-cockpit-demo.vercel.app/demo) · [Lokal ausprobieren](#lokal-starten) · [Screenshots](#screenshots) · [Fachchats & MCP](#fachchats--mcp) · [Architektur](#architektur)
+[**Demo öffnen**](https://semester-cockpit-demo.vercel.app/demo) · [Lokal starten](#lokal-starten) · [Funktionen](#funktionen) · [Screenshots](#screenshots) · [KI-Chats anbinden](#ki-chats-anbinden) · [Architektur](#architektur)
 
 </div>
 
 <br>
 
-![Semester Cockpit auf einem MacBook: Heute-Ansicht mit Lernblöcken und Wochenbudget](docs/media/hero.png)
+![Semester Cockpit: Heute-Ansicht mit Lernblöcken und Wochenbudget](docs/media/hero.png)
 
 ## Überblick
 
-Semester Cockpit ist die Lernplanung, die ich für mein Wirtschaftsinformatik-Studium gebaut habe. Die App beantwortet jeden Tag eine einfache Frage: **Was lerne ich heute, in welchem Fach, mit welchem Ziel und wie lange?** Dafür bündelt sie Module, Klausurtermine, Lernblöcke und Rückmeldungen an einem Ort. Ich entwickle sie selbst und nutze sie im Studienalltag.
+Semester Cockpit ist eine Web-App zur Lernorganisation. Ich habe sie für mein Wirtschaftsinformatik-Studium entwickelt und nutze sie, um Module, Klausurtermine und Lernzeiten zu planen. Für jeden Lernblock lassen sich Thema, Lernziel, Dauer und Unterlagen festhalten. Rückmeldungen und Selbsttests zeigen, was bereits geübt wurde und wo noch Schwierigkeiten bestehen.
 
-Erklärt wird der Stoff in separaten KI-Fachchats. Über MCP lesen sie den aktuellen Lernstand, holen die passenden Unterlagen und speichern am Ende ihre Rückmeldung. So weiß auch ein neuer Chat sofort, wo ich stehe.
+Die App lässt sich mit externen KI-Chats verbinden. Ein kompatibler Chat kann den gespeicherten Lernstand und die zugehörigen Unterlagen abrufen und nach einer Lernsitzung eine Rückmeldung speichern. Diese Daten stehen auch für spätere Sitzungen zur Verfügung.
 
-**Highlights**
-
-- **Ein klarer nächster Schritt:** Jeder Lernblock hat Ziel, Zeitbudget, Quelle und einen kopierbaren Auftrag für den Fachchat.
-- **Realistische Planung:** Wochenbudgets je Fach, ein Semesterrahmen und konkrete Termine für die nächsten zwei Wochen.
-- **Belegter Lernstand:** Ein Thema gilt erst als beherrscht, wenn ein Selbsttest es zeigt. Bloßes Bearbeiten reicht nicht.
-- **Kontext für KI-Fachchats:** Über MCP sehen Chats Themen, Lernregeln, die letzte Rückmeldung und den nächsten Schritt.
-- **Eigene Unterlagen:** Original-PDFs je Modul, mit Quelle bis zur Seite und Aufgabe (nur in der privaten Instanz).
-- **Am Rechner und am Handy:** ruhige Oberfläche mit Modulfarben, Hell- und Dunkelmodus.
-
-**Ohne Konto ausprobieren:** [Öffne die Live-Demo](https://semester-cockpit-demo.vercel.app/demo) mit fiktiven Daten. Sie braucht weder Datenbank noch Zugangsschlüssel. MCP und Datei-Upload gibt es nur in der privaten Instanz.
-
-## Screenshots
-
-![Lernplan, Module, Semesterüberblick und Wissensstand](docs/media/screens.png)
-
-### Dunkler Modus & mobile Ansicht
-
-<p align="center">
-  <img src="docs/images/heute-dark.png" alt="Heute im dunklen Modus" width="70%">
-  <img src="docs/images/heute-mobil.png" alt="Heute mit kompakter mobiler Navigation" width="24%">
-</p>
-
-Alle Screenshots und mitgelieferten Beispiel-PDFs zeigen eigens erstellte, fiktive Inhalte.
-
-## Fachchats & MCP
-
-Ein neuer Chat sollte wissen, wo du zuletzt aufgehört hast. Das Cockpit hält diesen Stand unabhängig vom Chatverlauf fest. Ein typischer Ablauf in der privaten Instanz:
-
-![Ablauf: Kontext lesen, Unterlagen öffnen, lernen, Rückmeldung speichern, prüfen](docs/media/fachchat.png)
-
-| Schritt | Werkzeug | Ergebnis |
-| --- | --- | --- |
-| **1. Kontext lesen** | `semester_module_context` | Lernregeln, Themen, aktueller Plan, Quellen, Nachweise und letzte Rückmeldung |
-| **2. Unterlagen öffnen** | `semester_material_download` | Autorisierter, kurzzeitig gültiger Download der passenden Original-PDF |
-| **3. Im Fachchat lernen** | Externer KI-Chat | Erklärungen, passende Übungen und Korrektur anhand der Unterlagen |
-| **4. Rückmeldung speichern** | `semester_module_feedback` | Tatsächliche Lernzeit, Hilfebedarf, Schwierigkeit und nächster Schritt |
-| **5. Speicherung prüfen** | `semester_module_context` | Gespeicherte Rückmeldung erneut lesen und ihre ID bestätigen |
-
-Der nächste Fachchat setzt beim gespeicherten Stand an. Über `semester_reschedule` können Blöcke innerhalb des zugewiesenen Fachbudgets verschoben werden.
-
-MCP über Streamable HTTP (`/api/mcp`) und REST (`/api/v1`) greifen auf dasselbe Backend zu. Agenten erhalten widerrufbare Lese- oder Schreibrechte über OAuth oder Agent-Schlüssel. Für Clients mit stdio-MCP gibt es eine [Brücke ohne zusätzliche Abhängigkeiten](public/semester-mcp.mjs).
-
-Die gezielten Fachwerkzeuge prüfen Modulzugehörigkeit und Budget. Diese fachliche Prüfung ist keine eigene OAuth-Rechtegrenze: Allgemein schreibberechtigte Agenten haben semesterweite Rechte. Verwaltung von Schlüsseln und OAuth-Freigaben bleibt der echten Besitzersitzung vorbehalten.
-
-Details: [Lernablauf & Werkzeugverträge](docs/heute-und-fachchats.md) · [Agentenleitfaden](public/agent-guide.md)
+**Die [Demo](https://semester-cockpit-demo.vercel.app/demo) lässt sich im Browser oder lokal mit fiktiven Daten ausprobieren.** Sie benötigt kein Konto und keine Datenbank. Anmeldung, dauerhafte Speicherung, Datei-Upload und die Chat-Anbindung sind für eine separat eingerichtete private Instanz vorgesehen.
 
 ## Funktionen
 
-| Bereich | Umfang |
+| Bereich | Funktionen |
 | --- | --- |
-| **Heute** | Nächste Lernblöcke, Lernziel, Zeitbudget, Quellen und letzte Rückmeldung |
-| **Module & Themen** | Dauerhafte Stoffübersicht, aktueller Schwerpunkt, Klausurtermine und Themenausblick |
-| **Planung** | Semesterrahmen, Wochenbudgets und verschiebbare Blöcke mit stabilen IDs |
-| **Lernstand** | Selbsttests, dokumentierte Lernzeit, offene Schwierigkeiten und Wiederholungen |
-| **Fachchat-Rückmeldungen** | Thema, Hilfebedarf und nächster Schritt unabhängig vom Chatverlauf gespeichert |
-| **Materialien** | Private Modul-PDFs, genaue Quellenverweise und gezielter Agentenabruf |
+| **Heute** | Anstehende Lernblöcke mit Thema, Lernziel, Zeitbudget und Quellen anzeigen |
+| **Module und Themen** | Studienfächer, Klausurtermine und den zugehörigen Lernstoff verwalten |
+| **Planung** | Wochenbudgets pro Fach festlegen und Lernblöcke terminieren oder verschieben |
+| **Lernstand** | Lernzeit, Rückmeldungen, Schwierigkeiten und Ergebnisse von Selbsttests erfassen |
+| **KI-Chats** | Lernstand und Unterlagen abrufen sowie Rückmeldungen über MCP speichern |
+| **Unterlagen** | In der privaten Instanz PDFs einem Fach zuordnen und Seiten oder Aufgaben als Quellen hinterlegen |
 
-Die Demo simuliert ausgewählte Änderungen im Arbeitsspeicher des Browsers. Neuladen oder „Demo zurücksetzen“ stellt die Fixtures wieder her. Dauerhafte Speicherung, Anmeldung, MCP und Datei-Upload benötigen eine [separat eingerichtete private Instanz](docs/private-instance.md).
+Die Oberfläche bietet einen hellen und einen dunklen Modus sowie eine angepasste Navigation für Mobilgeräte.
 
-## Tech-Stack
+## Screenshots
 
-| Bereich | Umsetzung |
-| --- | --- |
-| **Framework** | Next.js 16 App Router · React 19 · TypeScript |
-| **Oberfläche** | Tailwind CSS 4 · Geist · Lucide Icons · SVG-Diagramme |
-| **Daten & Validierung** | PostgreSQL · Drizzle-Schema · Zod |
-| **Private Instanz** | Supabase Auth & Storage · serverseitiger PostgreSQL-Zugriff |
-| **Agenten** | MCP · REST · OAuth · widerrufbare Agent-Schlüssel |
-| **Lokale Tests** | TypeScript-Testskripte · PGlite · Auth- und Upload-Fixtures |
-| **Hosting** | Next.js-kompatibler Node.js-Host, beispielsweise Vercel |
+![Lernplan, Module, Semesterüberblick und Lernstand](docs/media/screens.png)
 
-## Architektur
+### Dunkler Modus und mobile Ansicht
 
-```mermaid
-flowchart LR
-    UI[Web-Oberfläche] --> API[Gemeinsames Backend]
-    Chat[KI-Fachchat] <-->|MCP / REST| API
-    API <--> DB[(PostgreSQL)]
-    API --> PDF[Private PDFs]
-    Demo[Öffentliche Demo] --> Fixtures[Fiktiver Browserzustand]
-```
+<p align="center">
+  <img src="docs/images/heute-dark.png" alt="Heute-Ansicht im dunklen Modus" width="70%">
+  <img src="docs/images/heute-mobil.png" alt="Heute-Ansicht auf dem Smartphone" width="24%">
+</p>
 
-**Technische Entscheidungen, die sich lohnen anzusehen**
-
-- **Ein Datenmodell für Oberfläche und Agenten.** REST und MCP verwenden dieselben Validierungen und fachlichen Regeln. Lernzeit liegt in Sessions, Nachweise in Themen und Selbsttests.
-- **Themen überleben Terminänderungen.** Lernblöcke verweisen auf dauerhafte Themen. Verschieben erhält IDs, Quellen und Ergebnisse, ohne das Wochenbudget automatisch zu erhöhen.
-- **Schreibvorgänge bleiben nachvollziehbar.** Transaktionen verarbeiten Änderungen atomar; Revisionen erkennen veraltete Stände, Idempotenzschlüssel verhindern doppelte Wiederholungen. Änderungen landen im Verlauf.
-- **Bearbeitet ist nicht beherrscht.** Selbstständig bestätigt erfordert den Themenstatus `sicher` und den neuesten Selbsttest mit mindestens 80 Prozent ohne Hilfe. Eine erledigte Aufgabe allein reicht nicht.
-- **Die Demo ist vom Backend getrennt.** Nur `COCKPIT_MODE=private` aktiviert die private Instanz. Im Demo-Modus bleiben Backend-Endpunkte blockiert; gesetzte Backend-Credentials führen zum Abbruch.
-
-Quellcode-Einstieg: [Datenmodell](lib/model.ts) · [Backend](lib/server.ts) · [Planungsregeln](lib/study-planning.ts) · [Demo-Isolation](lib/runtime-mode.ts)
-
-## Qualität & Sicherheit
-
-Die [GitHub-Actions-Pipeline](.github/workflows/ci.yml) führt Lint, Build, Typprüfung und lokale Tests aus. Hohe und kritische Sicherheitsbefunde in Laufzeitabhängigkeiten blockieren die Pipeline; das vollständige Audit einschließlich Entwicklungswerkzeugen wird zusätzlich berichtet.
-
-Die Tests verwenden isolierte Fixtures, temporäre PostgreSQL-/PGlite-Datenbanken und lokale Mocks. Sie decken unter anderem Validierung, Besitzertrennung, Revisionen, Idempotenz, Fachchat-Rückmeldungen, Umplanung und den Uploadclient ab. Externer OAuth und echter Supabase-Storage benötigen ergänzende Integrationstests in einer getrennten Testinstanz.
-
-Serverseitige Autorisierung, Besitzerfilter, Zod-Validierung und parametrisierte Abfragen sichern den Datenzugriff. Original-PDFs bleiben im privaten Storage; Downloads werden erst nach Autorisierung kurzzeitig signiert.
-
-Sicherheitslücken bitte vertraulich melden: [SECURITY.md](SECURITY.md).
+Die Screenshots und mitgelieferten Beispiel-PDFs enthalten fiktive Daten.
 
 ## Lokal starten
 
-Voraussetzungen: **Node.js ≥ 22.13 und npm**; für die lokale Testsuite Node.js 24.
+Empfohlen: **Node.js 24 und npm**. Die App benötigt mindestens Node.js 22.13; die Testsuite verwendet Node.js 24.
 
 ```bash
 git clone https://github.com/Jonas480185/semester-cockpit.git
@@ -146,32 +72,98 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Öffne [localhost:3000/demo](http://localhost:3000/demo). Die Demo startet ohne Konto, Datenbank, Migration oder Seed. `.env.example` wählt ausdrücklich `COCKPIT_MODE=demo`.
+Die Demo ist unter [localhost:3000/demo](http://localhost:3000/demo) erreichbar. Die Beispielkonfiguration setzt `COCKPIT_MODE=demo`; weitere Zugangsdaten sind dafür nicht erforderlich.
+
+Änderungen in der Demo bleiben nur bis zum Neuladen der Seite erhalten. „Demo zurücksetzen“ stellt ebenfalls die Beispieldaten wieder her. Die Einrichtung mit Anmeldung, Datenbank und Datei-Upload beschreibt [Private Instanz einrichten](docs/private-instance.md).
 
 | Befehl | Zweck |
 | --- | --- |
-| `npm run dev` | Entwicklungsserver |
-| `npm run build` · `npm start` | Anwendung bauen · gebauten Server starten |
-| `npm run typecheck` | TypeScript-Prüfung |
-| `npm run lint` | ESLint |
-| `npm test` | Lokale Tests mit isolierten Fixtures |
+| `npm run dev` | Entwicklungsserver starten |
+| `npm run build` · `npm start` | Anwendung bauen und starten |
+| `npm run typecheck` | TypeScript prüfen |
+| `npm run lint` | Code mit ESLint prüfen |
+| `npm test` | Lokale Tests ausführen |
 
-Beim ersten Build lädt `next/font` Geist und Geist Mono herunter; dafür wird Netzzugang benötigt. Anschließend liefert die Anwendung die Schriften selbst aus.
+Beim ersten Build werden die Schriften Geist und Geist Mono über `next/font` heruntergeladen. Dafür ist eine Internetverbindung nötig.
 
-Konfiguration, Projektstruktur und Demo-Deployment: [Entwicklung & Betrieb](docs/development.md). Anmeldung, Datenbank und Storage: [Private Instanz einrichten](docs/private-instance.md).
+Weitere Hinweise zu Konfiguration und Deployment: [Entwicklung und Betrieb](docs/development.md).
 
-## Grenzen & Ausblick
+## KI-Chats anbinden
 
-Ein Fachchat muss Rückmeldungen auch wirklich speichern, das kann das Cockpit bei einem externen Client nicht erzwingen. Selbsttests belegen Können, aber nicht, dass der gesamte Stoff sitzt. Budgets zählen nur Lernblöcke und Zeiten, die erfasst wurden. Die App ist für eine einzelne Person ausgelegt, und die PDF-Prüfung ersetzt keinen Malware-Scan.
+Für das Lernen nutze ich separate KI-Chats pro Studienfach. Die Anbindung erfolgt über **MCP (Model Context Protocol)**. Ein kompatibler KI-Client erhält damit Zugriff auf die freigegebenen Daten der privaten Instanz.
 
-Als Nächstes könnten eine Prüfung der Stoffabdeckung, ein Kalenderimport mit Konfliktvorschau und weitere Integrationstests für externe Agenten folgen.
+Der Ablauf einer Lernsitzung:
+
+![Ablauf einer Lernsitzung: Lernstand abrufen, Unterlagen öffnen, lernen und Rückmeldung speichern](docs/media/fachchat.png)
+
+| Schritt | MCP-Werkzeug | Aufgabe |
+| --- | --- | --- |
+| **1. Lernstand abrufen** | `semester_module_context` | Themen, Lernregeln, Planung und letzte Rückmeldung lesen |
+| **2. Unterlagen öffnen** | `semester_material_download` | Die zugehörige PDF über einen autorisierten, zeitlich begrenzten Download abrufen |
+| **3. Lernen** | Externer KI-Chat | Den Stoff besprechen und Aufgaben anhand der Unterlagen bearbeiten |
+| **4. Rückmeldung speichern** | `semester_module_feedback` | Lernzeit, benötigte Hilfe, Schwierigkeiten und den nächsten Schritt erfassen |
+| **5. Ergebnis prüfen** | `semester_module_context` | Die gespeicherte Rückmeldung erneut abrufen |
+
+Mit `semester_reschedule` kann der Chat Lernblöcke innerhalb des Fachbudgets verschieben. Ob ein externer Chat die Rückmeldung tatsächlich speichert, hängt vom verwendeten Client und dem Ablauf der Sitzung ab.
+
+MCP (`/api/mcp`, Streamable HTTP) und REST (`/api/v1`) nutzen dasselbe Backend. Der Zugriff wird über OAuth oder widerrufbare Agent-Schlüssel freigegeben. Für Clients mit stdio-MCP gibt es eine [MCP-Brücke](public/semester-mcp.mjs).
+
+Die Werkzeuge für einzelne Fächer prüfen die Zuordnung zum Modul und dessen Budget. Eine allgemeine Schreibfreigabe gilt jedoch für das gesamte Semester. Schlüssel und OAuth-Freigaben verwaltet ausschließlich der angemeldete Besitzer.
+
+Details: [Lernablauf und Werkzeugverträge](docs/heute-und-fachchats.md) · [Agentenleitfaden](public/agent-guide.md).
+
+## Technischer Aufbau
+
+| Bereich | Umsetzung |
+| --- | --- |
+| **Framework** | Next.js 16 App Router, React 19, TypeScript |
+| **Oberfläche** | Tailwind CSS 4, Geist, Lucide Icons |
+| **Daten und Validierung** | PostgreSQL, Drizzle-Schema, Zod |
+| **Anmeldung und Dateien** | Supabase Auth und Storage in der privaten Instanz |
+| **Schnittstellen** | MCP, REST, OAuth und Agent-Schlüssel |
+| **Tests** | TypeScript-Testskripte, PGlite und simulierte externe Dienste |
+
+### Architektur
+
+```mermaid
+flowchart LR
+    UI[Web-Oberfläche] --> API[Gemeinsames Backend]
+    Chat[KI-Chat] <-->|MCP / REST| API
+    API <--> DB[(PostgreSQL)]
+    API --> PDF[Private PDFs]
+    Demo[Demo] --> Fixtures[Fiktive Browserdaten]
+```
+
+- **Gemeinsame Regeln:** Oberfläche und KI-Clients arbeiten mit demselben Datenmodell. REST und MCP verwenden dieselben Validierungen und Planungsregeln.
+- **Themen und Termine:** Themen bleiben unabhängig von einzelnen Lernblöcken gespeichert. Beim Verschieben eines Blocks bleiben seine ID, Quellen und Ergebnisse erhalten.
+- **Schreibzugriffe:** Transaktionen führen zusammengehörige Änderungen gemeinsam aus. Revisionen erkennen veraltete Datenstände; Idempotenzschlüssel verhindern, dass dieselbe Anfrage mehrfach verarbeitet wird. Ein Verlauf protokolliert die Änderungen.
+- **Lernstand:** Ein Thema zählt in der Auswertung als selbstständig bestätigt, wenn sein Status `sicher` ist und der neueste Selbsttest mindestens 80 Prozent ohne Hilfe erreicht. Das Abschließen eines Lernblocks allein erfüllt diese Bedingung nicht.
+- **Demo-Modus:** Backend-Endpunkte sind gesperrt. Sind dennoch Backend-Zugangsdaten gesetzt, bricht die Anwendung ab. `COCKPIT_MODE=private` aktiviert die private Instanz.
+
+Quellcode: [Datenmodell](lib/model.ts) · [Backend](lib/server.ts) · [Planungsregeln](lib/study-planning.ts) · [Demo-Modus](lib/runtime-mode.ts).
+
+## Tests und Sicherheit
+
+Die [GitHub-Actions-Pipeline](.github/workflows/ci.yml) führt Lint, Build, Typprüfung und Tests aus. Sie prüft außerdem die Abhängigkeiten: Hohe und kritische Befunde in Laufzeitabhängigkeiten lassen die Pipeline fehlschlagen. Befunde in Entwicklungswerkzeugen werden separat gemeldet.
+
+Die Tests laufen mit fiktiven Daten, temporären PostgreSQL-/PGlite-Datenbanken und simulierten externen Diensten. Geprüft werden unter anderem Eingabevalidierung, Benutzertrennung, Revisionen, Idempotenz, Rückmeldungen, Umplanung und der Uploadclient. Die Anbindung an den externen OAuth-Dienst und den echten Supabase-Storage benötigt zusätzliche Integrationstests.
+
+Das Backend prüft Zugriffsrechte und beschränkt Abfragen auf den jeweiligen Besitzer. Eingaben werden mit Zod validiert, SQL-Abfragen verwenden Parameter. PDFs liegen im privaten Storage; Downloadlinks werden nach einer Berechtigungsprüfung erstellt und sind zeitlich begrenzt. Die PDF-Prüfung umfasst keinen Malware-Scan.
+
+Hinweise zum vertraulichen Melden von Sicherheitslücken: [SECURITY.md](SECURITY.md).
+
+## Projektstand
+
+Die private Instanz ist für die Nutzung durch eine einzelne Person ausgelegt. Planung und Auswertung berücksichtigen die erfassten Themen, Lernblöcke und Zeiten. Selbsttests zeigen den Stand zu den geprüften Aufgaben; eine vollständige Abdeckung des Lernstoffs wird derzeit nicht überprüft.
+
+Mögliche Erweiterungen sind eine Übersicht zur Stoffabdeckung, ein Kalenderimport mit Konfliktvorschau und weitere Integrationstests für externe KI-Clients.
 
 ## Lizenz
 
-[MIT](LICENSE) für den Quellcode und die fiktiven Demo-Inhalte. Später hochgeladene Studienunterlagen behalten ihre eigenen Nutzungsrechte.
+Der Quellcode und die fiktiven Demo-Inhalte stehen unter der [MIT-Lizenz](LICENSE). Hochgeladene Studienunterlagen unterliegen ihren jeweiligen Nutzungsrechten.
 
 ---
 
 <div align="center">
-Entwickelt von <a href="https://github.com/Jonas480185">Jonas Lunkwitz</a> · Aus dem eigenen Studienalltag.
+Entwickelt von <a href="https://github.com/Jonas480185">Jonas Lunkwitz</a>
 </div>
