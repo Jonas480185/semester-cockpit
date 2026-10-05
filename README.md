@@ -24,24 +24,24 @@ Dazu ein dauerhaftes Gedächtnis für deine KI-Fachchats.
 
 <br>
 
-![Semester Cockpit: Semester Cockpit auf einem MacBook: Heute-Ansicht mit Lernblöcken und Wochenbudget](docs/media/hero.png)
+![Semester Cockpit auf einem MacBook: Heute-Ansicht mit Lernblöcken und Wochenbudget](docs/media/hero.png)
 
 ## Überblick
 
-Aus Semesterstoff wird ein konkreter Lernplan für heute: **welches Fach, welches Thema, welches Ziel und wie viel Zeit?** Semester Cockpit bündelt Module, Klausurtermine, Lernblöcke und Rückmeldungen. Es ist mein persönliches Projekt: Ich, **Jonas Lunkwitz**, konzipiere, entwickle und pflege Semester Cockpit aus meinem eigenen Studienalltag heraus. Die private Anwendung nutze ich tatsächlich.
+Semester Cockpit ist die Lernplanung, die ich für mein Wirtschaftsinformatik-Studium gebaut habe. Die App beantwortet jeden Tag eine einfache Frage: **Was lerne ich heute, in welchem Fach, mit welchem Ziel und wie lange?** Dafür bündelt sie Module, Klausurtermine, Lernblöcke und Rückmeldungen an einem Ort. Ich entwickle sie selbst und nutze sie im Studienalltag.
 
-Gelernt wird im Fachchat. Über MCP liest der Chat den aktuellen Stand, ruft passende Unterlagen ab und speichert die nächste Rückmeldung. So bleibt der Lernkontext auch beim Wechsel in einen neuen Chat erhalten.
+Erklärt wird der Stoff in separaten KI-Fachchats. Über MCP lesen sie den aktuellen Lernstand, holen die passenden Unterlagen und speichern am Ende ihre Rückmeldung. So weiß auch ein neuer Chat sofort, wo ich stehe.
 
 **Highlights**
 
-- **Ein klarer nächster Schritt:** Lernblöcke mit Ziel, Zeitbudget, Quellen und kopierbarem Fachchat-Auftrag.
-- **Realistische Planung:** Wochenbudgets je Fach, Semesterrahmen und konkrete Termine für die nächsten zwei Wochen.
-- **Nachgewiesener Lernstand:** bearbeitete Themen und selbstständig bestätigtes Können bleiben unterscheidbar.
-- **Kontext für Agenten:** Themen, Lernregeln, letzte Rückmeldung und nächster Schritt über eine eigene MCP-Schnittstelle.
-- **Private Materialien:** PDFs je Modul mit Quellen bis auf Seiten- und Aufgabennummer in der privaten Instanz.
-- **Desktop und mobil:** ruhige Oberfläche mit Geist, Modulfarben, kompakter Navigation und systemabhängigem Hell-/Dunkelmodus.
+- **Ein klarer nächster Schritt:** Jeder Lernblock hat Ziel, Zeitbudget, Quelle und einen kopierbaren Auftrag für den Fachchat.
+- **Realistische Planung:** Wochenbudgets je Fach, ein Semesterrahmen und konkrete Termine für die nächsten zwei Wochen.
+- **Belegter Lernstand:** Ein Thema gilt erst als beherrscht, wenn ein Selbsttest es zeigt. Bloßes Bearbeiten reicht nicht.
+- **Kontext für KI-Fachchats:** Über MCP sehen Chats Themen, Lernregeln, die letzte Rückmeldung und den nächsten Schritt.
+- **Eigene Unterlagen:** Original-PDFs je Modul, mit Quelle bis zur Seite und Aufgabe (nur in der privaten Instanz).
+- **Am Rechner und am Handy:** ruhige Oberfläche mit Modulfarben, Hell- und Dunkelmodus.
 
-**Ohne Konto ausprobieren:** Dieses Repository enthält eine isolierte Demo mit fiktiven Daten. Sie benötigt keine Datenbank und keine Zugangsschlüssel; MCP und Upload gehören zur privaten Instanz.
+**Ohne Konto ausprobieren:** Dieses Repository enthält eine Demo mit fiktiven Daten. Sie braucht weder Datenbank noch Zugangsschlüssel. MCP und Datei-Upload gibt es nur in der privaten Instanz.
 
 ## Screenshots
 
@@ -162,9 +162,9 @@ Konfiguration, Projektstruktur und Demo-Deployment: [Entwicklung & Betrieb](docs
 
 ## Grenzen & Ausblick
 
-Ein Fachchat muss Rückmeldungen tatsächlich speichern; das Cockpit kann die Werkzeugnutzung eines externen Clients nicht erzwingen. Selbsttests dokumentieren Lernnachweise, garantieren aber keine vollständige Stoffbeherrschung. Budgets berücksichtigen nur erfasste Lernblöcke und Zeiten.
+Ein Fachchat muss Rückmeldungen auch wirklich speichern, das kann das Cockpit bei einem externen Client nicht erzwingen. Selbsttests belegen Können, aber nicht, dass der gesamte Stoff sitzt. Budgets zählen nur Lernblöcke und Zeiten, die erfasst wurden. Die App ist für eine einzelne Person ausgelegt, und die PDF-Prüfung ersetzt keinen Malware-Scan.
 
-Die private Instanz ist für eine besitzende Person ausgelegt. Mögliche Weiterentwicklungen sind eine Stoffabdeckungsprüfung, bessere Tastaturbedienung, Kalenderimport mit Konfliktvorschau und zusätzliche Integrationstests für externe Agenten.
+Als Nächstes könnten eine Prüfung der Stoffabdeckung, ein Kalenderimport mit Konfliktvorschau und weitere Integrationstests für externe Agenten folgen.
 
 ## Lizenz
 
