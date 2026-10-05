@@ -13,6 +13,7 @@ const tests = [
   "tests/oauth-session-security.ts",
   "tests/study-planning.ts",
   "tests/demo.ts",
+  "tests/timetable.ts",
 ];
 for (const test of tests) {
   console.log(`\nRunning ${test} (isolated local fixtures)`);

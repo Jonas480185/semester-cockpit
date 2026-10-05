@@ -41,6 +41,7 @@ Die App lässt sich über MCP mit externen KI-Agenten verbinden. Ein **Fachchat*
 | **Heute** | Anstehende Lernblöcke mit Thema, Lernziel, Zeitbudget und Quellen anzeigen |
 | **Module und Themen** | Studienfächer, Klausurtermine und den zugehörigen Lernstoff verwalten |
 | **Planung** | Wochenbudgets pro Fach festlegen und Lernblöcke terminieren oder verschieben |
+| **Stundenplan** | Vorlesungen und Übungen als Serien anzeigen; vorhandene Lernblöcke nur mit Modulnamen einblenden |
 | **Lernstand** | Lernzeit, Rückmeldungen, Schwierigkeiten und Ergebnisse von Selbsttests erfassen |
 | **KI-Agenten** | Lernstand und Unterlagen abrufen sowie Rückmeldungen über MCP speichern |
 | **Unterlagen** | In der privaten Instanz PDFs einem Fach zuordnen und Seiten oder Aufgaben als Quellen hinterlegen |

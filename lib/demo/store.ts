@@ -3,7 +3,7 @@ import { batchSchema, schemas } from '../validation';
 import { planningWarnings } from '../study-planning';
 import { createDemoSnapshot, createDemoMaterials } from './fixtures';
 
-type Row = Snapshot[Entity][number];
+type Row = NonNullable<Snapshot[Entity]>[number];
 export type DemoAudit = {id:string;date:string;actor:string;entity:string;entityId:string;action:string;before:string|null;after:string|null;revision:number;reason:string};
 /** Small, intentionally non-persistent UI simulator. This module has no network or server imports. */
 export function createDemoStore() {
@@ -33,7 +33,7 @@ export function createDemoStore() {
       const draft = structuredClone(data);
       const changes:DemoAudit[] = [];
       for (const op of parsed.operations) {
-        const list:Row[] = draft[op.entity];
+        const list = (draft[op.entity] ||= []) as Row[];
         const id = op.id || String(op.data?.id || crypto.randomUUID());
         const index = list.findIndex(row=>row.id===id);
         if (op.action==='create' && index>=0) return reply({error:'Diese ID existiert bereits.'},409);
@@ -53,9 +53,9 @@ export function createDemoStore() {
       for (const entity of ['tasks','tests','sessions','gaps','reviews'] as const) for (const row of draft[entity]) if (!draft.topics.some(t=>t.id===row.topicId)) throw new Error('Das Thema wird noch verwendet.');
       for (const task of draft.tasks) if (task.sourceMaterialId && !materials.some(m=>m.id===task.sourceMaterialId && m.moduleId===draft.topics.find(t=>t.id===task.topicId)?.moduleId)) throw new Error('Quelle muss zum gleichen Modul gehören.');
       for (const session of draft.sessions) if (session.taskId && !draft.tasks.some(t=>t.id===session.taskId && t.topicId===session.topicId)) throw new Error('Rückmeldung und Block müssen zum gleichen Thema gehören.');
-      if (draft.plans.some(p=>p.moduleId && !draft.modules.some(m=>m.id===p.moduleId)) || draft.deadlines.some(d=>!draft.modules.some(m=>m.id===d.moduleId)) || materials.some(m=>!draft.modules.some(mod=>mod.id===m.moduleId))) throw new Error('Das Modul enthält noch Pläne, Termine oder Materialien.');
+      if (draft.plans.some(p=>p.moduleId && !draft.modules.some(m=>m.id===p.moduleId)) || draft.deadlines.some(d=>!draft.modules.some(m=>m.id===d.moduleId)) || (draft.timetableEvents || []).some(e=>!draft.modules.some(m=>m.id===e.moduleId)) || materials.some(m=>!draft.modules.some(mod=>mod.id===m.moduleId))) throw new Error('Das Modul enthält noch Pläne, Termine oder Materialien.');
       // Match the same schemas, while leaving mastery entirely to existing explicit test evidence.
-      for (const entity of entities) for (const row of draft[entity]) schemas[entity].parse(row);
+      for (const entity of entities) for (const row of draft[entity] || []) schemas[entity].parse(row);
       data = draft; revision++;
       audit.unshift(...changes);
       const response={revision,applied:changes.length,planningWarnings:planningWarnings(data),demo:true};

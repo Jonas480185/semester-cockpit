@@ -1,5 +1,6 @@
 import type { ZodTypeAny } from "zod";
 import { materialUploadInput, materialUpdateInput, materialDeleteInput } from "./material-validation";
+import { timetableEnabled } from "./timetable-config";
 import { schemas } from "./validation";
 export type JsonSchema = { type?: string; properties?: Record<string, JsonSchema>; required?: string[]; [key: string]: unknown };
 export function convert(z: ZodTypeAny): JsonSchema {
@@ -120,6 +121,7 @@ export function openapi(origin: string) {
     content: { "application/json": { schema } },
   });
   for (const [name, schema] of Object.entries(entitySchemas)) {
+    if (name === "timetableEvents" && !timetableEnabled()) continue;
     const create = structuredClone(schema);
     create.required = (create.required || []).filter((k: string) => k !== "id");
     const patch = structuredClone(schema);
@@ -185,6 +187,10 @@ export function openapi(origin: string) {
       requestBody: request(batchInput),
       responses,
     },
+  };
+  if (timetableEnabled()) paths["/api/v1/timetable"] = {
+    get: { operationId: "read_timetable", summary: "Stundenplan und alle belegten Zeiten lesen (Ende exklusiv, maximal 62 Tage)", security: auth,
+      parameters: ["from", "to", "moduleId"].map(name => ({ name, in: "query", required: name !== "moduleId", schema: { type: "string" } })), responses },
   };
   const materialId = { name: "id", in: "path", required: true, schema: { type: "string" } };
   paths["/api/materials"] = {

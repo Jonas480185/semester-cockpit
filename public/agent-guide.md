@@ -82,3 +82,9 @@ Dokumenttypen: `Vorlesung/Skript`, `Übung`, `Lösung`, `Altklausur`, `Sonstiges
 Aufgabenquellen werden über `semester_write_batch` gepflegt: `sourceMaterialId`, `sourcePageStart`, `sourcePageEnd` und `sourceExercise`. PDF-Seiten beginnen bei 1. Ohne verknüpfte Datei bleiben die Seitenfelder `null` und die Aufgabennummer leer. Datei und Aufgabe müssen demselben Modul gehören. `learningNotes` am Modul speichert fachliche Regeln und Beobachtungen bis 5000 Zeichen.
 
 Materialzugriff benötigt auch Fähigkeiten des Clients: Ein Fachchat kann nur Dateien hochladen, deren tatsächliche Bytes er abrufen und per HTTP übertragen kann. Der Zugriff auf Chat- oder Projektquellen hängt vom jeweiligen Client ab und wird durch den MCP-Server allein nicht hergestellt.
+
+## Optionaler Stundenplan
+
+Bei aktiviertem Stundenplan vor jeder zeitlichen Planung `semester_timetable({from,to,moduleId?})` lesen. Zeitraum: höchstens 62 Tage, Ende exklusiv; Datums-/Zeitwerte sind lokale Uhrzeiten in Europe/Berlin. Auch mit Modulfilter enthält `occupied` alle belegten Zeiten.
+
+Lernzeiten sind bestehende `tasks` und zeigen hier nur Modulnamen. Inhalte über `semester_module_context` lesen; Änderungen über `semester_reschedule` oder `semester_write_batch` mit aktueller Revision und Idempotenzschlüssel speichern. Neue bzw. zeitlich geänderte Lernblöcke dürfen keine Kollision erzeugen. Vorlesungen/Übungen sind `timetableEvents` mit Modul-ID, Datum, Uhrzeit, Dauer, Ort, `intervalWeeks` (0/1/2), Serienende und `exceptions`. Offizielle Zeiten müssen bekannt sein; keine Termine erfinden. Veranstaltungen verbrauchen kein Selbstlernbudget.

@@ -1,3 +1,4 @@
+import { timetableEnabled } from "@/lib/timetable-config";
 import Cockpit from "./components/cockpit";
 import { redirect } from "next/navigation";
 import { isDemoDeployment } from "@/lib/runtime-mode";
@@ -6,5 +7,5 @@ export default async function Home() {
   if (isDemoDeployment()) redirect("/demo");
   const { requireUser } = await import("@/lib/auth");
   await requireUser("/");
-  return <Cockpit />;
+  return <Cockpit timetableEnabled={timetableEnabled()} />;
 }

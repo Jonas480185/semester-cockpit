@@ -15,9 +15,9 @@ function check(value: unknown, label: string) {
 }
 const fixture = createDemoSnapshot("2032-10-06");
 for (const entity of entities) {
-  for (const row of fixture[entity]) schemas[entity].parse(row);
+  for (const row of fixture[entity] || []) schemas[entity].parse(row);
   check(
-    fixture[entity].every((r) => r.id.startsWith("demo-")),
+    (fixture[entity] || []).every((r) => r.id.startsWith("demo-")),
     `${entity}: valid fictional schema and demo IDs`,
   );
 }
@@ -118,6 +118,14 @@ check(
   ).status === "offen",
   "Each new demo tab/store begins independently",
 );
+
+state = await snapshot();
+const lecture = state.data.timetableEvents[0];
+const exception = {originalDate:lecture.date,date:lecture.date,time:"13:00",minutes:60,location:"Geänderter Beispielraum",cancelled:false};
+check((await write({revision:state.revision,operations:[{entity:"timetableEvents",action:"update",id:lecture.id,data:{exceptions:[exception]}}]})).ok,"Calendar occurrence edit uses the existing batch transport");
+state = await snapshot();
+check(state.data.timetableEvents.find((e:{id:string})=>e.id===lecture.id).exceptions[0].location===exception.location,"Calendar exceptions survive a fresh snapshot read");
+check(JSON.stringify(state.data.plans)===budgets,"Lecture edits preserve learning budgets");
 
 process.env.COCKPIT_MODE = "demo";
 check(isDemoDeployment(), "Explicit demo deployment is recognized");

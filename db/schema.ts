@@ -2,6 +2,7 @@ import {
   pgSchema,
   text,
   integer,
+  jsonb,
   primaryKey,
   index,
   check,
@@ -279,3 +280,13 @@ export const requests = semester.table(
   },
   (t) => [primaryKey({ columns: [t.ownerId, t.key] })],
 );
+
+// Optional timetable feature; enable only after the additive migration is applied.
+export const timetableEvents = semester.table("timetableEvents", {
+  ...identity(), moduleId: text("moduleId").notNull(), kind: text("kind").notNull(),
+  date: text("date").notNull(), time: text("time").notNull(), minutes: integer("minutes").notNull(),
+  location: text("location").notNull().default(""), intervalWeeks: integer("intervalWeeks").notNull().default(0),
+  until: text("until"), exceptions: jsonb("exceptions").notNull().default([]),
+}, t => [primaryKey({ columns: [t.ownerId, t.id] }),
+  foreignKey({ columns: [t.ownerId, t.moduleId], foreignColumns: [modules.ownerId, modules.id] }),
+  index("idx_timetable_module").on(t.ownerId, t.moduleId)]);

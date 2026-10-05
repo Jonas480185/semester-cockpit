@@ -10,6 +10,7 @@ import {
   today,
 } from "./model";
 
+import { overlaps, timetableBlocks } from "./timetable";
 export const planningHorizon = (date = today()) => offsetDate(date, 13);
 export const taskOrder = (a: Task, b: Task) =>
   (a.date + a.time).localeCompare(b.date + b.time) || a.id.localeCompare(b.id);
@@ -144,6 +145,11 @@ export function planningWarnings(data: Snapshot, start = monday(today())) {
     warnings.push(
       "Lernblöcke überschneiden sich zeitlich. Bitte Uhrzeiten prüfen.",
     );
+  if (data.timetableEvents?.length) {
+    const blocks = timetableBlocks(data, start, offsetDate(start, 7));
+    if (blocks.some((a, i) => blocks.slice(i + 1).some(b => (a.kind !== "Lernzeit" || b.kind !== "Lernzeit") && overlaps(a, b))))
+      warnings.push("Veranstaltungen oder Lernzeiten überschneiden sich im Stundenplan. Bitte Zeiten prüfen.");
+  }
   return warnings;
 }
 // Known module identities reuse the existing catalogue; these are planning policies,

@@ -1,3 +1,4 @@
+import type { TimetableEvent } from "./timetable-model";
 export const statuses = [
   "nicht begonnen",
   "unsicher",
@@ -102,6 +103,7 @@ export type History = {
   source: string;
 };
 export type Snapshot = {
+  timetableEvents?: TimetableEvent[];
   modules: Module[];
   topics: Topic[];
   tasks: Task[];
@@ -125,6 +127,7 @@ export const entities: Entity[] = [
   "deadlines",
   "plans",
   "history",
+  "timetableEvents",
 ];
 export function today() {
   return new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Berlin" }).format(

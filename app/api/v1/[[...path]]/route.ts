@@ -1,3 +1,4 @@
+import { readTimetable } from "@/lib/timetable-tools";
 import { isDemoDeployment, demoBackendResponse } from "@/lib/runtime-mode";
 import {
   authorize,
@@ -23,6 +24,8 @@ async function handler(
     const a = await authorize(r, r.method !== "GET");
     const [entity, id] = (await params).path || [];
     const url = new URL(r.url);
+    if (entity === "timetable" && r.method === "GET")
+      return json(await readTimetable(a, Object.fromEntries(url.searchParams)));
     if (entity === "openapi.json" && r.method === "GET")
       return json(openapi(url.origin));
     if (entity === "keys") {
