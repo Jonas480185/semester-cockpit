@@ -24,7 +24,7 @@ Dazu ein dauerhaftes Gedächtnis für deine KI-Fachchats.
 
 <br>
 
-![Semester Cockpit: Heute-Ansicht im dunklen Modus](docs/media/hero.png)
+![Semester Cockpit: Semester Cockpit auf einem MacBook: Heute-Ansicht mit Lernblöcken und Wochenbudget](docs/media/hero.png)
 
 ## Überblick
 
