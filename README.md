@@ -1,8 +1,9 @@
 <div align="center">
 
-<img src="public/semester-mark.png" alt="Semester Cockpit Logo" width="72" height="72">
-
-# Semester Cockpit
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="public/brand/semester-lockup-dark.png">
+  <img src="public/brand/semester-lockup-light.png" alt="Semester Cockpit" height="64">
+</picture>
 
 ### Klarheit für dein Semester.
 
@@ -23,10 +24,7 @@ mit einem dauerhaften Gedächtnis für deine KI-Fachchats.
 
 <br>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/images/heute-dark.png">
-  <img src="docs/images/heute.png" alt="Heute: Lernblöcke mit Lernziel, Originalquelle, letzter Rückmeldung und Wochenbudget" width="100%">
-</picture>
+![Semester Cockpit: Heute-Ansicht in Desktop und Mobil](docs/media/hero.png)
 
 ## Überblick
 
@@ -47,16 +45,7 @@ Gelernt wird im Fachchat. Über MCP liest der Chat den aktuellen Stand, ruft pas
 
 ## Screenshots
 
-<table>
-  <tr>
-    <td width="50%" valign="top"><strong>Semesterüberblick</strong><br>Module, Klausuren und bestätigter Lernstand.<br><br><img src="docs/images/semesteruebersicht.png" alt="Modulübersicht mit Klausurterminen und Lernfortschritt" width="100%"></td>
-    <td width="50%" valign="top"><strong>Module & Themen</strong><br>Aktueller Schwerpunkt und Ausblick je Fach.<br><br><img src="docs/images/module.png" alt="Moduldetails mit Themen, Schwerpunkt und Nachweisen" width="100%"></td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top"><strong>Lernplan</strong><br>Wochenbudget und konkrete Lernblöcke.<br><br><img src="docs/images/lernplan.png" alt="Lernplan mit Wochenbudgets und geplanten Blöcken" width="100%"></td>
-    <td width="50%" valign="top"><strong>Wissensstand</strong><br>Bearbeitete und selbstständig bestätigte Themen.<br><br><img src="docs/images/wissensstand.png" alt="Wissensstand mit bearbeiteten und nachgewiesenen Themen" width="100%"></td>
-  </tr>
-</table>
+![Lernplan, Module, Semesterüberblick und Wissensstand](docs/media/screens.png)
 
 ### Dunkler Modus & mobile Ansicht
 
@@ -70,6 +59,8 @@ Alle Screenshots und mitgelieferten Beispiel-PDFs zeigen eigens erstellte, fikti
 ## Fachchats & MCP
 
 Ein neuer Chat sollte wissen, wo du zuletzt aufgehört hast. Das Cockpit hält diesen Stand unabhängig vom Chatverlauf fest. Ein typischer Ablauf in der privaten Instanz:
+
+![Ablauf: Kontext lesen, Unterlagen öffnen, lernen, Rückmeldung speichern, prüfen](docs/media/fachchat.png)
 
 | Schritt | Werkzeug | Ergebnis |
 | --- | --- | --- |
