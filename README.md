@@ -7,8 +7,8 @@
 
 ### Klarheit für dein Semester.
 
-Lernplanung, Themen und Fortschritt an einem Ort –<br>
-mit einem dauerhaften Gedächtnis für deine KI-Fachchats.
+Lernplanung, Themen und Fortschritt an einem Ort.<br>
+Dazu ein dauerhaftes Gedächtnis für deine KI-Fachchats.
 
 ![Next.js](https://img.shields.io/badge/Next.js_16-000000?logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React_19-149ECA?logo=react&logoColor=white)
