@@ -45,14 +45,11 @@ Erklärt wird der Stoff in separaten KI-Fachchats. Über MCP lesen sie den aktue
 
 ## Screenshots
 
-![Lernplan, Module, Semesterüberblick und Wissensstand](docs/media/screens.png)
+![Heute, Lernplan, Module und dunkler Modus](docs/media/screens.png)
 
-### Dunkler Modus & mobile Ansicht
+### Mobile Ansicht
 
-<p align="center">
-  <img src="docs/images/heute-dark.png" alt="Heute im dunklen Modus" width="70%">
-  <img src="docs/images/heute-mobil.png" alt="Heute mit kompakter mobiler Navigation" width="24%">
-</p>
+![Semester Cockpit auf dem iPhone: Heute, Lernplan und dunkler Modus](docs/media/mobile.png)
 
 Alle Screenshots und mitgelieferten Beispiel-PDFs zeigen eigens erstellte, fiktive Inhalte.
 
