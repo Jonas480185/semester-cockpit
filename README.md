@@ -30,7 +30,7 @@ mit einem dauerhaften Gedächtnis für deine KI-Fachchats.
 
 ## Überblick
 
-Aus Semesterstoff wird ein konkreter Lernplan für heute: **welches Fach, welches Thema, welches Ziel und wie viel Zeit?** Semester Cockpit bündelt Module, Klausurtermine, Lernblöcke und Rückmeldungen. Es entstand aus meinem eigenen Studienalltag und wird als private Anwendung tatsächlich genutzt.
+Aus Semesterstoff wird ein konkreter Lernplan für heute: **welches Fach, welches Thema, welches Ziel und wie viel Zeit?** Semester Cockpit bündelt Module, Klausurtermine, Lernblöcke und Rückmeldungen. Es ist mein persönliches Projekt: Ich, **Jonas Lunkwitz**, konzipiere, entwickle und pflege Semester Cockpit aus meinem eigenen Studienalltag heraus. Die private Anwendung nutze ich tatsächlich.
 
 Gelernt wird im Fachchat. Über MCP liest der Chat den aktuellen Stand, ruft passende Unterlagen ab und speichert die nächste Rückmeldung. So bleibt der Lernkontext auch beim Wechsel in einen neuen Chat erhalten.
 
