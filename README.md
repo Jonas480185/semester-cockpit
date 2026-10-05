@@ -18,7 +18,7 @@ Dazu ein dauerhaftes Gedächtnis für deine KI-Fachchats.
 ![MCP](https://img.shields.io/badge/MCP-Agenten_API-0F1B33)
 [![Checks](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml/badge.svg)](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml)
 
-[Lokal ausprobieren](#lokal-starten) · [Screenshots](#screenshots) · [Fachchats & MCP](#fachchats--mcp) · [Architektur](#architektur)
+[**Live-Demo öffnen**](https://semester-cockpit-demo.vercel.app/demo) · [Lokal ausprobieren](#lokal-starten) · [Screenshots](#screenshots) · [Fachchats & MCP](#fachchats--mcp) · [Architektur](#architektur)
 
 </div>
 
@@ -41,7 +41,7 @@ Erklärt wird der Stoff in separaten KI-Fachchats. Über MCP lesen sie den aktue
 - **Eigene Unterlagen:** Original-PDFs je Modul, mit Quelle bis zur Seite und Aufgabe (nur in der privaten Instanz).
 - **Am Rechner und am Handy:** ruhige Oberfläche mit Modulfarben, Hell- und Dunkelmodus.
 
-**Ohne Konto ausprobieren:** Dieses Repository enthält eine Demo mit fiktiven Daten. Sie braucht weder Datenbank noch Zugangsschlüssel. MCP und Datei-Upload gibt es nur in der privaten Instanz.
+**Ohne Konto ausprobieren:** [Öffne die Live-Demo](https://semester-cockpit-demo.vercel.app/demo) mit fiktiven Daten. Sie braucht weder Datenbank noch Zugangsschlüssel. MCP und Datei-Upload gibt es nur in der privaten Instanz.
 
 ## Screenshots
 
