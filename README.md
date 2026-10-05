@@ -1,208 +1,186 @@
+<div align="center">
+
+<img src="public/semester-mark.png" alt="Semester Cockpit Logo" width="72" height="72">
+
 # Semester Cockpit
 
+### Klarheit für dein Semester.
+
+Lernplanung, Themen und Fortschritt an einem Ort –<br>
+mit einem dauerhaften Gedächtnis für deine KI-Fachchats.
+
+![Next.js](https://img.shields.io/badge/Next.js_16-000000?logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React_19-149ECA?logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_v4-06B6D4?logo=tailwindcss&logoColor=white)
+![MCP](https://img.shields.io/badge/MCP-Agenten_API-0F1B33)
 [![Checks](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml/badge.svg)](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml)
 
-**Aus Semesterstoff wird ein konkreter Lernplan für heute.**
+[Lokal ausprobieren](#lokal-starten) · [Screenshots](#screenshots) · [Fachchats & MCP](#fachchats--mcp) · [Architektur](#architektur)
 
-Semester Cockpit ist eine Web-Anwendung für die Organisation eines Studiums: Module, Themen, Prüfungstermine, Lernblöcke und Rückmeldungen laufen in einer gemeinsamen Datenstruktur zusammen. Gedacht ist sie nicht als Ersatz für einen Lern-Chatbot, sondern als dessen Gedächtnis: Die App speichert den Lernstand, und KI-Chats greifen über eine eigene MCP-Schnittstelle darauf zu. Das Projekt entstand aus dem eigenen Studienalltag und wird als private Anwendung tatsächlich genutzt. Dieses Repository enthält den Quellcode und eine eigenständige Demo mit vollständig fiktiven Daten.
+</div>
 
-Die zentrale Frage lautet: **Kann ich das Thema selbstständig anwenden?** Ein erledigter Lernblock zählt deshalb als bearbeitet, aber noch nicht als nachgewiesenes Können.
+<br>
 
-## Das Problem
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/images/heute-dark.png">
+  <img src="docs/images/heute.png" alt="Heute: Lernblöcke mit Lernziel, Originalquelle, letzter Rückmeldung und Wochenbudget" width="100%">
+</picture>
 
-Unterlagen, Termine und Lernfortschritt verteilen sich schnell auf Kalender, Dateien, Notizen und einzelne Chats. Daraus ergibt sich noch kein realistischer Tagesplan. Zusätzlich geht beim Wechsel zwischen Fachchats der aktuelle Lernstand verloren.
+## Überblick
 
-Das Cockpit übernimmt die Organisation: Was steht an, für welches Fach, mit welchem Ziel und in welchem Zeitbudget? Separate Fachchats können über MCP den gespeicherten Kontext und passende Originalunterlagen abrufen und nach einer Lerneinheit eine kurze Rückmeldung speichern. Erklärungen, Aufgabenauswahl und Korrektur bleiben im Fachchat.
+Aus Semesterstoff wird ein konkreter Lernplan für heute: **welches Fach, welches Thema, welches Ziel und wie viel Zeit?** Semester Cockpit bündelt Module, Klausurtermine, Lernblöcke und Rückmeldungen. Es entstand aus meinem eigenen Studienalltag und wird als private Anwendung tatsächlich genutzt.
 
-## Agent-first: das Cockpit als Gedächtnis für Fachchats
+Gelernt wird im Fachchat. Über MCP liest der Chat den aktuellen Stand, ruft passende Unterlagen ab und speichert die nächste Rückmeldung. So bleibt der Lernkontext auch beim Wechsel in einen neuen Chat erhalten.
 
-Ich lerne viel in KI-Chats, ein eigener Chat pro Fach. Das Problem daran: Ein Chat weiß nur, was in seinem Verlauf steht. Welche Themen ich schon sicher kann, was die Klausur ist und was ich beim letzten Mal nicht verstanden habe, muss ich jedes Mal neu erzählen. Deshalb habe ich die Anwendung von Anfang an so gebaut, dass nicht nur ich, sondern auch Agenten ein vollwertiger Nutzer sind.
+**Highlights**
 
-Das Cockpit ist dabei die zentrale Ablage und der Chat der Ort, an dem gelernt wird:
+- **Ein klarer nächster Schritt:** Lernblöcke mit Ziel, Zeitbudget, Quellen und kopierbarem Fachchat-Auftrag.
+- **Realistische Planung:** Wochenbudgets je Fach, Semesterrahmen und konkrete Termine für die nächsten zwei Wochen.
+- **Nachgewiesener Lernstand:** bearbeitete Themen und selbstständig bestätigtes Können bleiben unterscheidbar.
+- **Kontext für Agenten:** Themen, Lernregeln, letzte Rückmeldung und nächster Schritt über eine eigene MCP-Schnittstelle.
+- **Private Materialien:** PDFs je Modul mit Quellen bis auf Seiten- und Aufgabennummer in der privaten Instanz.
+- **Desktop und mobil:** ruhige Oberfläche mit Geist, Modulfarben, kompakter Navigation und systemabhängigem Hell-/Dunkelmodus.
 
-1. **Kontext lesen.** Ein neuer Fachchat ruft `semester_module_context` auf und bekommt Lernregeln, Themen, den aktuellen Plan, Quellenverweise, Nachweise und die letzte Rückmeldung. Ich muss nichts mehr einfügen oder zusammenfassen.
-2. **Originalunterlagen abrufen.** Mit `semester_material_download` holt der Chat die passende PDF. Die Datei liegt privat im Objektspeicher und wird nur über einen Link bereitgestellt, der nach 300 Sekunden abläuft.
-3. **Lernen im Chat.** Erklärungen, Aufgabenauswahl und Korrektur bleiben im Chat. Die App ersetzt das nicht.
-4. **Rückmeldung speichern.** Am Ende schreibt der Chat mit `semester_module_feedback` zurück: tatsächliche Lernzeit, ob Hilfe nötig war, was schwierig war und was der nächste Schritt ist. Danach liest er den Eintrag noch einmal und prüft, ob er wirklich gespeichert wurde.
+**Ohne Konto ausprobieren:** Dieses Repository enthält eine isolierte Demo mit fiktiven Daten. Sie benötigt keine Datenbank und keine Zugangsschlüssel; MCP und Upload gehören zur privaten Instanz.
 
-Der nächste Chat, auch zu einem anderen Zeitpunkt oder bei einem anderen Anbieter, beginnt dann beim gespeicherten Stand statt bei null.
+## Screenshots
 
-**Was dafür gebaut ist**
+<table>
+  <tr>
+    <td width="50%" valign="top"><strong>Semesterüberblick</strong><br>Module, Klausuren und bestätigter Lernstand.<br><br><img src="docs/images/semesteruebersicht.png" alt="Modulübersicht mit Klausurterminen und Lernfortschritt" width="100%"></td>
+    <td width="50%" valign="top"><strong>Module & Themen</strong><br>Aktueller Schwerpunkt und Ausblick je Fach.<br><br><img src="docs/images/module.png" alt="Moduldetails mit Themen, Schwerpunkt und Nachweisen" width="100%"></td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top"><strong>Lernplan</strong><br>Wochenbudget und konkrete Lernblöcke.<br><br><img src="docs/images/lernplan.png" alt="Lernplan mit Wochenbudgets und geplanten Blöcken" width="100%"></td>
+    <td width="50%" valign="top"><strong>Wissensstand</strong><br>Bearbeitete und selbstständig bestätigte Themen.<br><br><img src="docs/images/wissensstand.png" alt="Wissensstand mit bearbeiteten und nachgewiesenen Themen" width="100%"></td>
+  </tr>
+</table>
 
-- Ein MCP-Server unter `/api/mcp` mit 14 Werkzeugen für Lesen, Analyse, Planung, Rückmeldungen und Materialien. Die Anmeldung läuft über OAuth mit Freigabe oder über einen Agent-Schlüssel mit eingeschränkten Rechten.
-- Eine kleine Brücke ohne Abhängigkeiten ([`public/semester-mcp.mjs`](public/semester-mcp.mjs)) für Clients, die MCP nur über stdio sprechen.
-- Ein [Agentenleitfaden](public/agent-guide.md), der die Werkzeuge und den vorgesehenen Ablauf beschreibt.
-- Dieselben Datenmodelle und Prüfungen für Oberfläche, REST-API und MCP. Ein Agent darf nichts speichern, was die Oberfläche ablehnen würde.
+### Dunkler Modus & mobile Ansicht
 
-Weil mehrere Chats parallel schreiben können, sind die Schreibvorgänge entsprechend abgesichert: Revisionen erkennen veraltete Stände, Idempotenzschlüssel verhindern doppelte Einträge bei Wiederholungen, und die gezielten Fachchat-Werkzeuge prüfen, dass ein Chat nur sein eigenes Modul und dessen Wochenbudget ändert.
+<p align="center">
+  <img src="docs/images/heute-dark.png" alt="Heute im dunklen Modus" width="70%">
+  <img src="docs/images/heute-mobil.png" alt="Heute mit kompakter mobiler Navigation" width="24%">
+</p>
 
-Zwei Entscheidungen waren mir wichtig. Erstens zählt eine erledigte Aufgabe nicht als Können: Ein Thema gilt erst als sicher, wenn es einen Selbsttest ohne Hilfe mit mindestens 80 Prozent gibt. Zweitens erfindet das System nichts. Unbekannte Lernzeiten bleiben leer, und Themen, die noch nicht bekannt sind, werden nicht geraten.
+Alle Screenshots und mitgelieferten Beispiel-PDFs zeigen eigens erstellte, fiktive Inhalte.
 
-Die öffentliche Demo zeigt Oberfläche und Datenmodell mit fiktiven Daten. MCP, Datei-Upload und gespeicherte Rückmeldungen sind dort bewusst abgeschaltet, sie gehören zur privaten Instanz. Die [Doku zu Heute und Fachchats](docs/heute-und-fachchats.md) beschreibt den Ablauf im Detail.
+## Fachchats & MCP
+
+Ein neuer Chat sollte wissen, wo du zuletzt aufgehört hast. Das Cockpit hält diesen Stand unabhängig vom Chatverlauf fest. Ein typischer Ablauf in der privaten Instanz:
+
+| Schritt | Werkzeug | Ergebnis |
+| --- | --- | --- |
+| **1. Kontext lesen** | `semester_module_context` | Lernregeln, Themen, aktueller Plan, Quellen, Nachweise und letzte Rückmeldung |
+| **2. Unterlagen öffnen** | `semester_material_download` | Autorisierter, kurzzeitig gültiger Download der passenden Original-PDF |
+| **3. Im Fachchat lernen** | Externer KI-Chat | Erklärungen, passende Übungen und Korrektur anhand der Unterlagen |
+| **4. Rückmeldung speichern** | `semester_module_feedback` | Tatsächliche Lernzeit, Hilfebedarf, Schwierigkeit und nächster Schritt |
+| **5. Speicherung prüfen** | `semester_module_context` | Gespeicherte Rückmeldung erneut lesen und ihre ID bestätigen |
+
+Der nächste Fachchat setzt beim gespeicherten Stand an. Über `semester_reschedule` können Blöcke innerhalb des zugewiesenen Fachbudgets verschoben werden.
+
+MCP über Streamable HTTP (`/api/mcp`) und REST (`/api/v1`) greifen auf dasselbe Backend zu. Agenten erhalten widerrufbare Lese- oder Schreibrechte über OAuth oder Agent-Schlüssel. Für Clients mit stdio-MCP gibt es eine [Brücke ohne zusätzliche Abhängigkeiten](public/semester-mcp.mjs).
+
+Die gezielten Fachwerkzeuge prüfen Modulzugehörigkeit und Budget. Diese fachliche Prüfung ist keine eigene OAuth-Rechtegrenze: Allgemein schreibberechtigte Agenten haben semesterweite Rechte. Verwaltung von Schlüsseln und OAuth-Freigaben bleibt der echten Besitzersitzung vorbehalten.
+
+Details: [Lernablauf & Werkzeugverträge](docs/heute-und-fachchats.md) · [Agentenleitfaden](public/agent-guide.md)
 
 ## Funktionen
 
-- **Heute:** nächste Lernblöcke mit Fach, Thema, Lernziel, Dauer und Quellenverweisen; kopierbarer Auftrag für den Fachchat.
-- **Module:** dauerhafte Themenübersicht mit bereits gekonnten Themen, aktuellem Schwerpunkt und grobem Ausblick bis zur Klausur. Unbekannter Stoff bleibt ausdrücklich offen.
-- **Planung:** Semesterrahmen und konkrete Lernblöcke sind getrennt. Verschieben erhält Themen, Quellen und Ergebnisse; Budgets steigen nicht automatisch mit.
-- **Lernstand:** bearbeitete Themen, Selbsttests, dokumentierte Lernzeit, offene Schwierigkeiten und Wiederholungen. Selbstständiges Können benötigt einen gesonderten Nachweis.
-- **Fachchat-Rückmeldungen:** Thema, tatsächliche Lernzeit, Hilfebedarf, Schwierigkeit und nächster Schritt bleiben unabhängig vom Chatverlauf gespeichert.
-- **Private Materialien:** PDFs pro Modul, Quellen bis auf Seiten- und Aufgabennummer sowie gezielter Agentenzugriff über kurzzeitig gültige Download-Links.
+| Bereich | Umfang |
+| --- | --- |
+| **Heute** | Nächste Lernblöcke, Lernziel, Zeitbudget, Quellen und letzte Rückmeldung |
+| **Module & Themen** | Dauerhafte Stoffübersicht, aktueller Schwerpunkt, Klausurtermine und Themenausblick |
+| **Planung** | Semesterrahmen, Wochenbudgets und verschiebbare Blöcke mit stabilen IDs |
+| **Lernstand** | Selbsttests, dokumentierte Lernzeit, offene Schwierigkeiten und Wiederholungen |
+| **Fachchat-Rückmeldungen** | Thema, Hilfebedarf und nächster Schritt unabhängig vom Chatverlauf gespeichert |
+| **Materialien** | Private Modul-PDFs, genaue Quellenverweise und gezielter Agentenabruf |
 
-## Demo und Screenshots
+Die Demo simuliert ausgewählte Änderungen im Arbeitsspeicher des Browsers. Neuladen oder „Demo zurücksetzen“ stellt die Fixtures wieder her. Dauerhafte Speicherung, Anmeldung, MCP und Datei-Upload benötigen eine [separat eingerichtete private Instanz](docs/private-instance.md).
 
-Die Oberfläche bietet einen hellen und einen dunklen Modus entsprechend der Systemeinstellung, eine kompakte mobile Navigation und klar gegliederte Lernblöcke. Das Design ist bewusst zurückhaltend: neutrale Flächen, ein einzelner Blauton für Aktionen und Auswahl, Modulfarben nur als Orientierung. Die Schrift Geist wird beim Build geladen und anschließend von der Anwendung selbst ausgeliefert.
-
-Die Demo startet ohne Konto, Datenbank oder Zugangsschlüssel unter `/demo`. Alle Module, Termine, Lernstände und Notizen sind fiktiv. Änderungen betreffen ausschließlich den Zustand im Arbeitsspeicher des Browsers. Neu laden oder „Demo zurücksetzen“ stellt die Fixtures wieder her; es besteht keine Verbindung zu einer privaten Instanz. Die verlinkten Beispiel-PDFs sind eigens erstellte, fiktive Übungsunterlagen. Private Originalunterlagen werden nicht mitgeliefert.
-
-### Heute
-
-![Heute: Lernblöcke mit Lernziel, Zeitbudget und nächstem Schritt](docs/images/heute.png)
-
-### Semesterübersicht
-
-![Semesterübersicht: fiktive Module, Klausurtermine und nachgewiesener Lernstand](docs/images/semesteruebersicht.png)
-
-### Module und Themen
-
-![Modulansicht: bestätigtes Können, aktueller Schwerpunkt und Themenausblick](docs/images/module.png)
-
-### Lernplan
-
-![Lernplan: Wochenbudget und konkrete Lernblöcke](docs/images/lernplan.png)
-
-### Wissensstand
-
-![Wissensstand: Bearbeitungsstand und selbstständig bestätigte Themen](docs/images/wissensstand.png)
-
-### Dunkler Modus und mobile Ansicht
-
-<p>
-  <img src="docs/images/heute-dark.png" alt="Heute im dunklen Modus" width="66%">
-  <img src="docs/images/heute-mobil.png" alt="Heute in der mobilen Ansicht" width="20%">
-</p>
-
-## Architektur und Entscheidungen
-
-```mermaid
-flowchart LR
-    Themen[Module und dauerhafte Themen] --> Rahmen[Grober Semesterrahmen]
-    Rahmen --> Bloecke[Konkrete Lernblöcke und Wochenbudgets]
-    Bloecke --> Heute[Heute-Ansicht]
-    Heute --> Auftrag[Auftrag für den Fachchat]
-    Auftrag --> Chat[Externer Fachchat]
-    Chat <-->|MCP, nur private Instanz| API[Validierte Lese- und Schreiboperationen]
-    API <--> Daten[(PostgreSQL)]
-    API --> PDFs[Private PDFs in Supabase Storage]
-    Daten --> Feedback[Rückmeldung und nächster Schritt]
-    Feedback --> Heute
-```
-
-**Ein Datenmodell, mehrere Zugänge.** In der privaten Instanz verwenden Oberfläche, REST-API und MCP dieselben Entitäten und fachlichen Validierungen. Die Demo simuliert ausgewählte Lernplan-Änderungen lokal und ersetzt keinen Backend-Integrationstest. Lernzeit liegt in Sessions, selbstständiges Können wird aus Themenstatus und Testnachweisen abgeleitet. Es gibt keinen zusätzlichen KI-Fortschrittsstand.
-
-**Themen überleben Terminänderungen.** Themen sind dauerhafte Datensätze. Konkrete Aufgaben verweisen auf sie und können verschoben werden, ohne neue Themen oder Kopien der Ergebnisse anzulegen. Neue konkrete Termine liegen innerhalb der nächsten zwei Wochen; spätere Inhalte bleiben ein grober Themenrahmen.
-
-**Nachvollziehbare Schreibvorgänge.** Backend-Änderungen werden atomar verarbeitet. Revisionen erkennen konkurrierende Änderungen, Idempotenzschlüssel verhindern doppelte Wiederholungen derselben Anfrage. Änderungen landen im Verlauf. Gezielte Fachchat-Werkzeuge prüfen Modulzugehörigkeit und Wochenbudget.
-
-**Getrennte Betriebsarten.** Die Demo verwendet lokale Fixtures und Browserzustand. Nur `COCKPIT_MODE=private` aktiviert die authentifizierte private Instanz mit PostgreSQL und privatem Objektspeicher. Ein Demo-Build mit gesetzten Backend-Credentials wird abgelehnt. Die öffentliche Demo benötigt und erhält keine produktiven Credentials.
-
-Weitere Details: [Lernablauf und MCP](docs/heute-und-fachchats.md), [Agentenleitfaden](public/agent-guide.md), [Sicherheitsmodell](SECURITY.md).
-
-## Tech Stack
+## Tech-Stack
 
 | Bereich | Umsetzung |
 | --- | --- |
-| Web-Anwendung | Next.js App Router, React, TypeScript |
-| Oberfläche | Tailwind CSS, wiederverwendbare UI-Komponenten, Lucide Icons und SVG-Diagramme |
-| Daten und Validierung | PostgreSQL, Drizzle-Schema, Zod |
-| Private Instanz | Supabase Auth und Storage, serverseitiger PostgreSQL-Zugriff |
-| Agenten | MCP über HTTP, REST-API, OAuth beziehungsweise scoped Agent-Schlüssel |
-| Lokale Tests | TypeScript-Testskripte, PGlite, lokale Auth- und Upload-Fixtures |
-| Hosting | Next.js-kompatibler Node.js-Host, beispielsweise Vercel |
+| **Framework** | Next.js 16 App Router · React 19 · TypeScript |
+| **Oberfläche** | Tailwind CSS 4 · Geist · Lucide Icons · SVG-Diagramme |
+| **Daten & Validierung** | PostgreSQL · Drizzle-Schema · Zod |
+| **Private Instanz** | Supabase Auth & Storage · serverseitiger PostgreSQL-Zugriff |
+| **Agenten** | MCP · REST · OAuth · widerrufbare Agent-Schlüssel |
+| **Lokale Tests** | TypeScript-Testskripte · PGlite · Auth- und Upload-Fixtures |
+| **Hosting** | Next.js-kompatibler Node.js-Host, beispielsweise Vercel |
+
+## Architektur
+
+```mermaid
+flowchart LR
+    UI[Web-Oberfläche] --> API[Gemeinsames Backend]
+    Chat[KI-Fachchat] <-->|MCP / REST| API
+    API <--> DB[(PostgreSQL)]
+    API --> PDF[Private PDFs]
+    Demo[Öffentliche Demo] --> Fixtures[Fiktiver Browserzustand]
+```
+
+**Technische Entscheidungen, die sich lohnen anzusehen**
+
+- **Ein Datenmodell für Oberfläche und Agenten.** REST und MCP verwenden dieselben Validierungen und fachlichen Regeln. Lernzeit liegt in Sessions, Nachweise in Themen und Selbsttests.
+- **Themen überleben Terminänderungen.** Lernblöcke verweisen auf dauerhafte Themen. Verschieben erhält IDs, Quellen und Ergebnisse, ohne das Wochenbudget automatisch zu erhöhen.
+- **Schreibvorgänge bleiben nachvollziehbar.** Transaktionen verarbeiten Änderungen atomar; Revisionen erkennen veraltete Stände, Idempotenzschlüssel verhindern doppelte Wiederholungen. Änderungen landen im Verlauf.
+- **Bearbeitet ist nicht beherrscht.** Selbstständig bestätigt erfordert den Themenstatus `sicher` und den neuesten Selbsttest mit mindestens 80 Prozent ohne Hilfe. Eine erledigte Aufgabe allein reicht nicht.
+- **Die Demo ist vom Backend getrennt.** Nur `COCKPIT_MODE=private` aktiviert die private Instanz. Im Demo-Modus bleiben Backend-Endpunkte blockiert; gesetzte Backend-Credentials führen zum Abbruch.
+
+Quellcode-Einstieg: [Datenmodell](lib/model.ts) · [Backend](lib/server.ts) · [Planungsregeln](lib/study-planning.ts) · [Demo-Isolation](lib/runtime-mode.ts)
+
+## Qualität & Sicherheit
+
+Die [GitHub-Actions-Pipeline](.github/workflows/ci.yml) führt Lint, Build, Typprüfung und lokale Tests aus. Hohe und kritische Sicherheitsbefunde in Laufzeitabhängigkeiten blockieren die Pipeline; das vollständige Audit einschließlich Entwicklungswerkzeugen wird zusätzlich berichtet.
+
+Die Tests verwenden isolierte Fixtures, temporäre PostgreSQL-/PGlite-Datenbanken und lokale Mocks. Sie decken unter anderem Validierung, Besitzertrennung, Revisionen, Idempotenz, Fachchat-Rückmeldungen, Umplanung und den Uploadclient ab. Externer OAuth und echter Supabase-Storage benötigen ergänzende Integrationstests in einer getrennten Testinstanz.
+
+Serverseitige Autorisierung, Besitzerfilter, Zod-Validierung und parametrisierte Abfragen sichern den Datenzugriff. Original-PDFs bleiben im privaten Storage; Downloads werden erst nach Autorisierung kurzzeitig signiert.
+
+Sicherheitslücken bitte vertraulich melden: [SECURITY.md](SECURITY.md).
 
 ## Lokal starten
 
-Voraussetzung: **Node.js ab 22.13** und npm. Ohne gesetzten Betriebsmodus startet die isolierte Demo; `.env.example` macht diese Auswahl ausdrücklich sichtbar.
+Voraussetzungen: **Node.js ≥ 22.13 und npm**; für die lokale Testsuite Node.js 24.
 
 ```bash
+git clone https://github.com/Jonas480185/semester-cockpit.git
+cd semester-cockpit
 npm ci
 cp .env.example .env.local
 npm run dev
 ```
 
-Anschließend [localhost:3000/demo](http://localhost:3000/demo) öffnen. Für die Demo werden keine Supabase-Ressourcen angelegt und keine Migrationen benötigt.
+Öffne [localhost:3000/demo](http://localhost:3000/demo). Die Demo startet ohne Konto, Datenbank, Migration oder Seed. `.env.example` wählt ausdrücklich `COCKPIT_MODE=demo`.
 
-```bash
-npm run build
-npm start
-```
-
-Das baut und startet die Anwendung im Production-Modus.
-
-Beim ersten Build benötigt `next/font` Netzzugang zu Google Fonts, um Geist und Geist Mono herunterzuladen. Beim späteren Aufruf der Anwendung werden diese Schriften vom eigenen Host geladen.
-
-## Konfiguration
-
-`.env.example` enthält ausschließlich Platzhalter und aktiviert die Demo. Lokale `.env`-Dateien werden nicht versioniert.
-
-| Variable | Zweck | Demo |
-| --- | --- | --- |
-| `COCKPIT_MODE` | `demo` für die öffentliche Demo; `private` nur für eine getrennt eingerichtete private Instanz | `demo` |
-| `APP_URL` | Öffentliche Basis-URL für Weiterleitungen und OAuth | nicht benötigt |
-| `DATABASE_URL` | Serverseitiger PostgreSQL-Zugang | nicht setzen |
-| `NEXT_PUBLIC_SUPABASE_URL` | URL des eigenen Supabase-Projekts | nicht setzen |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Öffentlicher Supabase-Client-Schlüssel | nicht setzen |
-| `SUPABASE_SECRET_KEY` | Serverseitiger Storage-Schlüssel; alternativ `SUPABASE_SERVICE_ROLE_KEY` | nicht setzen |
-| `COCKPIT_OWNER_EMAIL` | Für die private Oberfläche zugelassene, bestätigte E-Mail-Adresse | nicht setzen |
-
-Öffentliche Supabase-Client-Werte sind kein Ersatz für Zugriffskontrollen. Datenbank- und Server-Schlüssel gehören ausschließlich in die Serverkonfiguration. Die [Anleitung für eine private Instanz](docs/private-instance.md) beschreibt die zusätzlichen Voraussetzungen.
-
-## Befehle
-
-| Befehl | Funktion |
+| Befehl | Zweck |
 | --- | --- |
-| `npm run dev` | Lokaler Next.js-Entwicklungsserver |
-| `npm run build` | Production-Build und Framework-Prüfungen |
-| `npm start` | Gebauten Next.js-Server starten |
+| `npm run dev` | Entwicklungsserver |
+| `npm run build` · `npm start` | Anwendung bauen · gebauten Server starten |
+| `npm run typecheck` | TypeScript-Prüfung |
 | `npm run lint` | ESLint |
-| `npm run typecheck` | TypeScript-Prüfung ohne Ausgabe |
-| `npm test` / `npm run test:local` | Lokale Tests mit isolierten Fixtures |
+| `npm test` | Lokale Tests mit isolierten Fixtures |
 
-Das Drizzle-Schema und die SQL-Migrationen beschreiben das Datenmodell der privaten Instanz. Für die Demo wird keine Migration ausgeführt.
+Beim ersten Build lädt `next/font` Geist und Geist Mono herunter; dafür wird Netzzugang benötigt. Anschließend liefert die Anwendung die Schriften selbst aus.
 
-Die lokale Testsuite entfernt Cloud-Credentials aus ihrer Umgebung und verwendet temporäre lokale Datenbanken. Sie prüft unter anderem Validierung, Zugriffskontrollen, Revisionen, Idempotenz, Fachchat-Rückmeldungen, Umplanung und Uploadclient-Abläufe. Echter Supabase-Storage und ein vollständiger OAuth-Ablauf eines externen Chat-Clients benötigen zusätzliche Integrationstests in einer separaten Testinstanz.
+Konfiguration, Projektstruktur und Demo-Deployment: [Entwicklung & Betrieb](docs/development.md). Anmeldung, Datenbank und Storage: [Private Instanz einrichten](docs/private-instance.md).
 
-## Deployment der öffentlichen Demo
+## Grenzen & Ausblick
 
-1. Ein **neues** Hosting-Projekt aus diesem Repository anlegen.
-2. Next.js als Framework verwenden; Installation `npm ci`, Build `npm run build`.
-3. Ausschließlich `COCKPIT_MODE=demo` setzen. Keine Supabase-Integration verknüpfen und keine Environment-Variablen einer privaten Anwendung übernehmen.
-4. `/demo` und die Isolation der Demo prüfen. Backend-Endpunkte müssen im Demo-Modus blockiert bleiben.
+Ein Fachchat muss Rückmeldungen tatsächlich speichern; das Cockpit kann die Werkzeugnutzung eines externen Clients nicht erzwingen. Selbsttests dokumentieren Lernnachweise, garantieren aber keine vollständige Stoffbeherrschung. Budgets berücksichtigen nur erfasste Lernblöcke und Zeiten.
 
-Die Demo braucht keine Datenbank und keinen Seed.
-
-## Projektstruktur
-
-```text
-app/                    Seiten, UI-Komponenten und serverseitige Routen
-lib/                    Datenmodell, Validierung, Planung, MCP und Authentifizierung
-db/                     Drizzle-Schema
-supabase/migrations/    SQL-Struktur der optionalen privaten Instanz
-tests/                  Lokale Fach- und Sicherheitstests
-scripts/                Entwicklungs- und Testwerkzeuge
-public/                 Öffentliche Assets und Agentenleitfaden
-docs/                   Screenshots und technische Erläuterungen
-```
-
-## Grenzen und nächste Schritte
-
-- Ein Fachchat muss seine Rückmeldung tatsächlich speichern. Das Cockpit kann einen externen Client nicht zur Werkzeugnutzung zwingen.
-- Ein Selbsttest ist ein dokumentierter Nachweis, keine objektive Garantie des Könnens. Vollständige Stoffabdeckung wird nicht automatisch behauptet.
-- Budgets berücksichtigen nur eingetragene Blöcke und Lernzeiten, keine unbekannten Kalenderverpflichtungen.
-- Die private Anwendung ist auf eine besitzende Person ausgelegt. Eine Team- oder Hochschulplattform mit Rollenverwaltung ist kein Bestandteil dieses Projekts.
-
-Mögliche Weiterentwicklungen sind eine konfigurierbare Stoffabdeckungsprüfung, bessere barrierefreie Tastaturbedienung, ein Kalenderimport mit Konfliktvorschau und zusätzliche isolierte Integrationstests für externe Agenten. Eine eigene Chatoberfläche oder automatische Bewertung hochgeladener Unterlagen ist derzeit nicht vorgesehen.
+Die private Instanz ist für eine besitzende Person ausgelegt. Mögliche Weiterentwicklungen sind eine Stoffabdeckungsprüfung, bessere Tastaturbedienung, Kalenderimport mit Konfliktvorschau und zusätzliche Integrationstests für externe Agenten.
 
 ## Lizenz
 
-Der Quellcode steht unter der [MIT-Lizenz](LICENSE). Die fiktiven Demo-Inhalte sind Teil des Projekts. Materialien, die eine Person später in einer privaten Instanz hochlädt, erhalten dadurch keine neue Lizenz.
+[MIT](LICENSE) für den Quellcode und die fiktiven Demo-Inhalte. Später hochgeladene Studienunterlagen behalten ihre eigenen Nutzungsrechte.
+
+---
+
+<div align="center">
+Entwickelt von <a href="https://github.com/Jonas480185">Jonas Lunkwitz</a> · Aus dem eigenen Studienalltag.
+</div>
