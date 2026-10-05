@@ -52,13 +52,6 @@ Die Oberfläche bietet einen hellen und einen dunklen Modus sowie eine angepasst
 
 ![Lernplan, Module, Semesterüberblick und Lernstand](docs/media/screens.png)
 
-### Dunkler Modus und mobile Ansicht
-
-<p align="center">
-  <img src="docs/images/heute-dark.png" alt="Heute-Ansicht im dunklen Modus" width="70%">
-  <img src="docs/images/heute-mobil.png" alt="Heute-Ansicht auf dem Smartphone" width="24%">
-</p>
-
 Die Screenshots und mitgelieferten Beispiel-PDFs enthalten fiktive Daten.
 
 ## Lokal starten
