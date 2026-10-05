@@ -8,7 +8,7 @@
 ### Semesterplanung und Lernstand
 
 Module, Lernzeiten und Klausuren planen.<br>
-Lernergebnisse speichern und über MCP mit KI-Chats teilen.
+KI-Agenten über MCP Zugriff auf Lernstand und Unterlagen geben.
 
 ![Next.js](https://img.shields.io/badge/Next.js_16-000000?logo=nextdotjs&logoColor=white)
 ![React](https://img.shields.io/badge/React_19-149ECA?logo=react&logoColor=white)
@@ -18,7 +18,7 @@ Lernergebnisse speichern und über MCP mit KI-Chats teilen.
 ![MCP](https://img.shields.io/badge/MCP-Agenten_API-0F1B33)
 [![Checks](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml/badge.svg)](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml)
 
-[**Demo öffnen**](https://semester-cockpit-demo.vercel.app/demo) · [Lokal starten](#lokal-starten) · [Funktionen](#funktionen) · [Screenshots](#screenshots) · [KI-Chats anbinden](#ki-chats-anbinden) · [Architektur](#architektur)
+[**Demo öffnen**](https://semester-cockpit-demo.vercel.app/demo) · [Lokal starten](#lokal-starten) · [Funktionen](#funktionen) · [Screenshots](#screenshots) · [KI-Agenten und Fachchats](#ki-agenten-und-fachchats) · [Architektur](#architektur)
 
 </div>
 
@@ -30,9 +30,9 @@ Lernergebnisse speichern und über MCP mit KI-Chats teilen.
 
 Semester Cockpit ist eine Web-App zur Lernorganisation. Ich habe sie für mein Wirtschaftsinformatik-Studium entwickelt und nutze sie, um Module, Klausurtermine und Lernzeiten zu planen. Für jeden Lernblock lassen sich Thema, Lernziel, Dauer und Unterlagen festhalten. Rückmeldungen und Selbsttests zeigen, was bereits geübt wurde und wo noch Schwierigkeiten bestehen.
 
-Die App lässt sich mit externen KI-Chats verbinden. Ein kompatibler Chat kann den gespeicherten Lernstand und die zugehörigen Unterlagen abrufen und nach einer Lernsitzung eine Rückmeldung speichern. Diese Daten stehen auch für spätere Sitzungen zur Verfügung.
+Die App lässt sich über MCP mit externen KI-Agenten verbinden. Ein **Fachchat** ist dabei ein Lern-KI-Agent für ein bestimmtes Studienfach: Er greift auf den gespeicherten Lernstand und die freigegebenen Unterlagen zu, erklärt Lerninhalte und begleitet Übungen. Nach einer Lernsitzung kann er eine Rückmeldung im Cockpit speichern. Diese Daten stehen auch für spätere Sitzungen zur Verfügung.
 
-**Die [Demo](https://semester-cockpit-demo.vercel.app/demo) lässt sich im Browser oder lokal mit fiktiven Daten ausprobieren.** Sie benötigt kein Konto und keine Datenbank. Anmeldung, dauerhafte Speicherung, Datei-Upload und die Chat-Anbindung sind für eine separat eingerichtete private Instanz vorgesehen.
+**Die [Demo](https://semester-cockpit-demo.vercel.app/demo) lässt sich im Browser oder lokal mit fiktiven Daten ausprobieren.** Sie benötigt kein Konto und keine Datenbank. Anmeldung, dauerhafte Speicherung, Datei-Upload und die Anbindung von KI-Agenten sind für eine separat eingerichtete private Instanz vorgesehen.
 
 ## Funktionen
 
@@ -42,7 +42,7 @@ Die App lässt sich mit externen KI-Chats verbinden. Ein kompatibler Chat kann d
 | **Module und Themen** | Studienfächer, Klausurtermine und den zugehörigen Lernstoff verwalten |
 | **Planung** | Wochenbudgets pro Fach festlegen und Lernblöcke terminieren oder verschieben |
 | **Lernstand** | Lernzeit, Rückmeldungen, Schwierigkeiten und Ergebnisse von Selbsttests erfassen |
-| **KI-Chats** | Lernstand und Unterlagen abrufen sowie Rückmeldungen über MCP speichern |
+| **KI-Agenten** | Lernstand und Unterlagen abrufen sowie Rückmeldungen über MCP speichern |
 | **Unterlagen** | In der privaten Instanz PDFs einem Fach zuordnen und Seiten oder Aufgaben als Quellen hinterlegen |
 
 Die Oberfläche bietet einen hellen und einen dunklen Modus sowie eine angepasste Navigation für Mobilgeräte.
@@ -88,9 +88,9 @@ Beim ersten Build werden die Schriften Geist und Geist Mono über `next/font` he
 
 Weitere Hinweise zu Konfiguration und Deployment: [Entwicklung und Betrieb](docs/development.md).
 
-## KI-Chats anbinden
+## KI-Agenten und Fachchats
 
-Für das Lernen nutze ich separate KI-Chats pro Studienfach. Die Anbindung erfolgt über **MCP (Model Context Protocol)**. Ein kompatibler KI-Client erhält damit Zugriff auf die freigegebenen Daten der privaten Instanz.
+Für das Lernen nutze ich einen eigenen Fachchat pro Studienfach. Der Lern-KI-Agent wird in einem externen KI-Client verwendet, der **MCP (Model Context Protocol)** unterstützt. Über diese Schnittstelle kann er die freigegebenen Daten der privaten Instanz lesen und Rückmeldungen speichern.
 
 Der Ablauf einer Lernsitzung:
 
@@ -100,11 +100,11 @@ Der Ablauf einer Lernsitzung:
 | --- | --- | --- |
 | **1. Lernstand abrufen** | `semester_module_context` | Themen, Lernregeln, Planung und letzte Rückmeldung lesen |
 | **2. Unterlagen öffnen** | `semester_material_download` | Die zugehörige PDF über einen autorisierten, zeitlich begrenzten Download abrufen |
-| **3. Lernen** | Externer KI-Chat | Den Stoff besprechen und Aufgaben anhand der Unterlagen bearbeiten |
+| **3. Lernen** | Fachchat mit dem Lern-KI-Agenten | Lerninhalte erklären lassen und Aufgaben anhand der Unterlagen bearbeiten |
 | **4. Rückmeldung speichern** | `semester_module_feedback` | Lernzeit, benötigte Hilfe, Schwierigkeiten und den nächsten Schritt erfassen |
 | **5. Ergebnis prüfen** | `semester_module_context` | Die gespeicherte Rückmeldung erneut abrufen |
 
-Mit `semester_reschedule` kann der Chat Lernblöcke innerhalb des Fachbudgets verschieben. Ob ein externer Chat die Rückmeldung tatsächlich speichert, hängt vom verwendeten Client und dem Ablauf der Sitzung ab.
+Mit `semester_reschedule` kann der KI-Agent Lernblöcke innerhalb des Fachbudgets verschieben. Ob der Fachchat die Rückmeldung tatsächlich speichert, hängt vom verwendeten KI-Client und dem Ablauf der Sitzung ab.
 
 MCP (`/api/mcp`, Streamable HTTP) und REST (`/api/v1`) nutzen dasselbe Backend. Der Zugriff wird über OAuth oder widerrufbare Agent-Schlüssel freigegeben. Für Clients mit stdio-MCP gibt es eine [MCP-Brücke](public/semester-mcp.mjs).
 
@@ -128,13 +128,13 @@ Details: [Lernablauf und Werkzeugverträge](docs/heute-und-fachchats.md) · [Age
 ```mermaid
 flowchart LR
     UI[Web-Oberfläche] --> API[Gemeinsames Backend]
-    Chat[KI-Chat] <-->|MCP / REST| API
+    Agent[KI-Agent] <-->|MCP / REST| API
     API <--> DB[(PostgreSQL)]
     API --> PDF[Private PDFs]
     Demo[Demo] --> Fixtures[Fiktive Browserdaten]
 ```
 
-- **Gemeinsame Regeln:** Oberfläche und KI-Clients arbeiten mit demselben Datenmodell. REST und MCP verwenden dieselben Validierungen und Planungsregeln.
+- **Gemeinsame Regeln:** Oberfläche und KI-Agenten arbeiten mit demselben Datenmodell. REST und MCP verwenden dieselben Validierungen und Planungsregeln.
 - **Themen und Termine:** Themen bleiben unabhängig von einzelnen Lernblöcken gespeichert. Beim Verschieben eines Blocks bleiben seine ID, Quellen und Ergebnisse erhalten.
 - **Schreibzugriffe:** Transaktionen führen zusammengehörige Änderungen gemeinsam aus. Revisionen erkennen veraltete Datenstände; Idempotenzschlüssel verhindern, dass dieselbe Anfrage mehrfach verarbeitet wird. Ein Verlauf protokolliert die Änderungen.
 - **Lernstand:** Ein Thema zählt in der Auswertung als selbstständig bestätigt, wenn sein Status `sicher` ist und der neueste Selbsttest mindestens 80 Prozent ohne Hilfe erreicht. Das Abschließen eines Lernblocks allein erfüllt diese Bedingung nicht.

@@ -1,7 +1,7 @@
 {
   "name": "semester-cockpit",
   "version": "1.0.0",
-  "description": "Web-App zur Semesterplanung: Module und Lernblöcke verwalten, Lernstand festhalten und KI-Chats über MCP anbinden. Mit Demo.",
+  "description": "Web-App zur Semesterplanung: Module und Lernblöcke verwalten, Lernstand festhalten und KI-Agenten über MCP anbinden. Mit Demo.",
   "license": "MIT",
   "private": true,
   "engines": {
