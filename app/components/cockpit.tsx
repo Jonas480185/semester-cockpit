@@ -1,7 +1,8 @@
 "use client";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { clientRequest, materialHref } from "@/lib/client-request";
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import {
   LayoutDashboard,
@@ -57,6 +58,7 @@ import { Editor, Modal, type Edit, type EditValues } from "./editor";
 import { MaterialsPanel } from "./materials";
 import { batchInput } from "@/lib/openapi";
 import { batchSchema, type Operation } from "@/lib/validation";
+const Timetable = dynamic(() => import("./timetable").then(m => m.Timetable));
 const fmt = (
   d: string,
   options: Intl.DateTimeFormatOptions = { day: "numeric", month: "short" },
@@ -67,7 +69,7 @@ const fmt = (
 const hours = (n: number) =>
   (n / 60).toLocaleString("de-DE", { maximumFractionDigits: 1 });
 const duration = (n: number) => (n < 60 ? `${n} Min.` : `${hours(n)} Std.`);
-const links: { icon: LucideIcon; label: string; group: "Lernen" | "Überblick"; mobile?: boolean }[] = [
+const baseLinks: { icon: LucideIcon; label: string; group: "Lernen" | "Überblick"; mobile?: boolean }[] = [
   { icon: LayoutDashboard, label: "Heute", group: "Lernen", mobile: true },
   { icon: BookOpen, label: "Module", group: "Lernen", mobile: true },
   { icon: CalendarDays, label: "Lernplan", group: "Lernen", mobile: true },
@@ -76,7 +78,7 @@ const links: { icon: LucideIcon; label: string; group: "Lernen" | "Überblick"; 
   { icon: ChartNoAxesCombined, label: "Wissensstand", group: "Überblick" },
   { icon: CalendarClock, label: "Termine", group: "Überblick" },
 ];
-const entityLabel: Record<string, string> = { tasks: "Lernblock", plans: "Plan", topics: "Thema", modules: "Modul", tests: "Selbsttest", gaps: "Wissenslücke", sessions: "Lernzeit", reviews: "Wiederholung", deadlines: "Termin", materials: "Material" };
+const entityLabel: Record<string, string> = { timetableEvents: "Veranstaltung", tasks: "Lernblock", plans: "Plan", topics: "Thema", modules: "Modul", tests: "Selbsttest", gaps: "Wissenslücke", sessions: "Lernzeit", reviews: "Wiederholung", deadlines: "Termin", materials: "Material" };
 const actionLabel = (a: string) => a === "cleanup" ? "Beispieldaten entfernt" : a === "create" ? "Erstellt" : a === "update" ? "Aktualisiert" : "Gelöscht";
 const daysUntil = (d: string) =>
   Math.round((Date.parse(d.slice(0, 10) + "T12:00:00Z") - Date.parse(today() + "T12:00:00Z")) / 86400000);
@@ -89,10 +91,10 @@ type AuditEntry = { id: string; date: string; actor: string; entity: string; act
 type SnapshotResponse = { data: Snapshot; revision: number };
 type BrowserTool = { name: string; description: string; inputSchema: object; annotations: Record<string, boolean>; execute: (input: unknown) => Promise<unknown> };
 type BrowserModelContext = { registerTool: (tool: BrowserTool, options: { signal: AbortSignal }) => unknown };
-function currentView() {
+function currentView(timetableEnabled = false) {
   const raw = new URLSearchParams(location.search).get("view");
   const view = raw === "Übersicht" ? "Heute" : raw;
-  return view && [...links.map(link => link.label), "Agent & API"].includes(view) ? view : "Heute";
+  return view && [...baseLinks.map(link => link.label), "Agent & API", ...(timetableEnabled ? ["Stundenplan"] : [])].includes(view) ? view : "Heute";
 }
 function subscribeView(listener: () => void) {
   window.addEventListener("popstate", listener);
@@ -121,10 +123,12 @@ async function api<T = unknown>(path: string, init?: RequestInit): Promise<T> {
   }
   return value as T;
 }
-export default function Cockpit({ demo = false }: { demo?: boolean }) {
+export default function Cockpit({ demo = false, timetableEnabled = false }: { demo?: boolean; timetableEnabled?: boolean }) {
+  const links = useMemo(() => timetableEnabled ? [...baseLinks.slice(0, 3), { icon: CalendarRange, label: "Stundenplan", group: "Lernen" as const }, ...baseLinks.slice(3)] : baseLinks, [timetableEnabled]);
+  const getView = useCallback(() => currentView(timetableEnabled), [timetableEnabled]);
   const [data, setData] = useState<Snapshot | null>(null);
   const [revision, setRevision] = useState(0);
-  const view = useSyncExternalStore(subscribeView, currentView, initialView);
+  const view = useSyncExternalStore(subscribeView, getView, initialView);
   const moduleId = useSyncExternalStore(subscribeView, currentModuleId, initialModuleId);
   const [knowledgeTab, setKnowledgeTab] = useState("Wissenslücken");
   const [edit, setEdit] = useState<Edit | null>(null);
@@ -342,6 +346,7 @@ export default function Cockpit({ demo = false }: { demo?: boolean }) {
   const heading: Record<string, [string, string]> = {
     Heute: ["Heute", "Dein nächster Lernschritt. Gelernt wird im Fachchat."],
     Module: ["Module", "Themen, Lernstand und Materialien je Fach."],
+    Stundenplan: ["Stundenplan", "Vorlesungen und Lernzeiten auf einen Blick."],
     Lernplan: ["Lernplan", "Tag, Woche und Semester mit Budgets und Konflikten."],
     Aufgaben: ["Lernaufgaben", "Alle konkreten Lernblöcke, nach Datum geordnet."],
     Wiederholungen: ["Wiederholungen", "Fällige Themen gezielt wieder aufnehmen."],
@@ -552,6 +557,7 @@ export default function Cockpit({ demo = false }: { demo?: boolean }) {
           )}
           {data && (
             <>
+              {view === "Stundenplan" && timetableEnabled && <Timetable data={data} revision={revision} busy={busy} write={write} openTask={t => form("tasks", t)} openModule={openModule} />}
               {view === "Heute" && <TodayView data={data} editTask={t=>form("tasks",t)} editSession={t=>form("sessions",undefined,{topicId:t.topicId,taskId:t.id,minutes:0})} openPlan={()=>navigate("Lernplan")} editPlan={(p,d)=>form("plans",p,d)} create={(entity)=>form(entity)}/>}
               {view === "Module" && (
                 <>

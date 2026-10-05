@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { timetableEventSchema } from "./timetable-validation";
 const id = z.string().regex(/^[a-zA-Z0-9_-]{1,100}$/);
 const title = z.string().trim().min(1).max(300);
 const notes = z.string().max(5000);
@@ -15,6 +16,7 @@ const rank = z.number().int().min(1).max(3);
 const status = z.enum(["nicht begonnen", "unsicher", "in Arbeit", "sicher"]);
 const open = z.enum(["offen", "erledigt"]);
 export const schemas = {
+  timetableEvents: timetableEventSchema,
   modules: z
     .object({
       id,
@@ -138,6 +140,7 @@ export const operationSchema = z
       "reviews",
       "deadlines",
       "plans",
+      "timetableEvents",
     ]),
     action: z.enum(["create", "update", "delete"]),
     id: id.optional(),

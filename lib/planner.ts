@@ -6,6 +6,7 @@ import {
   topicSources,
 } from "./study-planning";
 import type { Operation } from "./validation";
+import { overlaps, timetableBlocks, wallEnd } from "./timetable";
 export function proposeWeek(
   data: Snapshot,
   start = monday(offsetDate(today(), 7)),
@@ -75,6 +76,7 @@ export function proposeWeek(
         available,
         weekSummary(draft, start, topic.moduleId).available || 0,
       );
+      if (timetableBlocks(draft, offsetDate(date, -1), offsetDate(date, 2)).some(block => overlaps({ start: date + "T" + time, end: wallEnd(date, time, duration) }, block))) continue;
       if (
         draft.tasks.some(
           (t) =>

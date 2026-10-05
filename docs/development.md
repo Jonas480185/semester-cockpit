@@ -55,3 +55,9 @@ public/                 Öffentliche Assets und Agentenleitfaden
 docs/                   Screenshots und technische Erläuterungen
 ```
 
+
+## Optionaler Stundenplan
+
+Die aktuelle Kalenderoberfläche und Datenlogik entsprechen der lokalen Hauptanwendung. In einer privaten Instanz zunächst die additive Migration `20261005111431_timetable.sql` für `semester."timetableEvents"` prüfen und anwenden; danach `COCKPIT_TIMETABLE_ENABLED=1` setzen. Ohne Schalter wird die neue Tabelle nicht abgefragt. Abschalten und erneutes Bauen blendet den Kalender aus und erhält gespeicherte Termine. Migrationen gegen vorhandene produktive Instanzen erfordern einen ausdrücklichen Auftrag.
+
+Vorlesungen und Übungen haben eigene Serien und Einzeltermin-Ausnahmen. Lernzeiten verwenden bestehende Aufgaben-IDs, zeigen im Kalender nur Modulnamen und behalten Lerninhalte, Quellen und Budgets. Vorlesungen zählen nicht zum Selbstlernbudget. REST und MCP verwenden dieselben Belegungs- und Konfliktregeln. Die lokale Browserfassung stellt diesen Code mit fiktiven Terminen dar.

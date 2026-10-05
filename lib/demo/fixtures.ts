@@ -40,6 +40,7 @@ export function createDemoSnapshot(date = today()): Snapshot {
   const confirmed = topics.filter(t=>t.status==='sicher');
   return {
     modules,topics,tasks,
+    timetableEvents: [{id:"demo-lecture-rw",moduleId:"demo-accounting",kind:"Vorlesung",date:week,time:"08:00",minutes:60,location:"Beispielraum A",intervalWeeks:1,until:offsetDate(week,84),exceptions:[]},{id:"demo-tutorial-db",moduleId:"demo-db",kind:"Übung",date:offsetDate(week,1),time:"11:00",minutes:60,location:"Beispielraum B",intervalWeeks:1,until:offsetDate(week,84),exceptions:[]}],
     tests:confirmed.map((t,i)=>({id:'demo-proof-'+i,topicId:t.id,date:offsetDate(date,-3)+'T09:00:00.000Z',score:[90,85,88,82][i],independent:true,notes:'Selbsttest ohne Hilfe, Aufgaben ohne Musterlösung bearbeitet.'})),
     sessions:[
       {id:'demo-feedback-db',topicId:'demo-db-model',taskId:'demo-past-db',date:offsetDate(date,-2),minutes:40,assistance:'selbstständig',difficulty:'Keine offene Schwierigkeit im Beispiel.',nextStep:'SQL-Abfragen mit zwei verknüpften Tabellen üben.',notes:'Fiktive Fachchat-Rückmeldung.',recordedAt:offsetDate(date,-2)+'T14:45:00.000Z'},

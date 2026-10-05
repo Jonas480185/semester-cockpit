@@ -17,6 +17,8 @@ import {
 } from "./model";
 import { schemas, batchSchema, type Operation } from "./validation";
 import { planningHorizon, planningWarnings, weekSummary } from "./study-planning";
+import { timetableEnabled } from "./timetable-config";
+import { overlaps, timetableBlocks, wallEnd } from "./timetable";
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -118,7 +120,7 @@ function insert(
     )
     .bind(
       ...keys.map((k) =>
-        typeof values[k] === "boolean" ? Number(values[k]) : values[k],
+        entity === "timetableEvents" && k === "exceptions" ? JSON.stringify(values[k]) : typeof values[k] === "boolean" ? Number(values[k]) : values[k],
       ),
     );
 }
@@ -151,9 +153,10 @@ export async function initialize(owner: string) {
   }
 }
 export async function snapshot(owner: string) {
+  const activeEntities = entities.filter(e => e !== "timetableEvents" || timetableEnabled());
   const queries = [
     db().prepare("SELECT revision FROM workspaces WHERE ownerId=?").bind(owner),
-    ...entities.map((e) =>
+    ...activeEntities.map((e) =>
       db()
         .prepare(`SELECT * FROM "${e}" WHERE ownerId=? ORDER BY id`)
         .bind(owner),
@@ -162,8 +165,8 @@ export async function snapshot(owner: string) {
   const results = await db().batch(queries);
   if (!results[0].results[0])
     throw new ApiError(404, "Semester noch nicht eingerichtet.");
-  const data = {} as Snapshot;
-  entities.forEach((e, i) => {
+  const data = { timetableEvents: [] } as unknown as Snapshot;
+  activeEntities.forEach((e, i) => {
     (data[e] as unknown[]) = results[i + 1].results.map((row) => {
       const value = { ...row };
       delete value.ownerId; delete value.updatedAt;
@@ -213,7 +216,10 @@ export async function mutate(auth: Auth, body: unknown, key: string | null) {
       400,
       "Ein Idempotency-Key mit 8–100 Zeichen ist erforderlich.",
     );
+  if (auth.scope !== "read-write") throw new ApiError(403, "Keine Schreibberechtigung.");
   const parsed = batchSchema.parse(body);
+  if (!timetableEnabled() && parsed.operations.some(op => op.entity === "timetableEvents"))
+    throw new ApiError(404, "Der Stundenplan ist deaktiviert.");
   const bodyHash = await hash(JSON.stringify(parsed));
   const replay = async () => {
     const p = await db()
@@ -410,7 +416,7 @@ export async function mutate(auth: Auth, body: unknown, key: string | null) {
   }
   // References are validated against the final batch state, including newly created parents.
   for (const e of entities)
-    for (const row of draft[e] as MutationRow[]) {
+    for (const row of (draft[e] || []) as MutationRow[]) {
       if (row.moduleId && !draft.modules.some((m) => m.id === row.moduleId))
         throw new ApiError(
           400,
@@ -422,6 +428,17 @@ export async function mutate(auth: Auth, body: unknown, key: string | null) {
           "Themenreferenz ungültig oder noch in Verwendung.",
         );
     }
+  if (timetableEnabled()) {
+    // Validate the final atomic batch; event edits may expose existing conflicts,
+    // but moving/creating a learning block must not introduce a collision.
+    for (const c of changes.filter(c => c.entity === "tasks" && c.after && c.after.date >= today() && (!c.before || ["date", "time", "minutes"].some(k => c.before![k] !== c.after![k])))) {
+      const task = c.after!;
+      const candidate = { start: task.date + "T" + task.time, end: wallEnd(task.date, task.time, task.minutes) };
+      const conflict = timetableBlocks(draft, offsetDate(task.date, -1), offsetDate(candidate.end.slice(0, 10), 1))
+        .find(block => block.id !== "task@" + task.id && overlaps(candidate, block));
+      if (conflict) throw new ApiError(409, `Die Lernzeit überschneidet sich mit ${conflict.title} (${conflict.kind}). Bitte eine freie Zeit wählen.`);
+    }
+  }
   // Sources share the existing task and topic/module identities; no duplicate progress.
   for (const session of draft.sessions) {
     if (session.taskId && !draft.tasks.some(t => t.id === session.taskId && t.topicId === session.topicId))
@@ -478,7 +495,7 @@ export async function mutate(auth: Auth, body: unknown, key: string | null) {
           )
           .bind(
             ...fields.map((k) =>
-              typeof c.after![k] === "boolean" ? Number(c.after![k]) : c.after![k],
+              c.entity === "timetableEvents" && k === "exceptions" ? JSON.stringify(c.after![k]) : typeof c.after![k] === "boolean" ? Number(c.after![k]) : c.after![k],
             ),
             now,
             auth.owner,

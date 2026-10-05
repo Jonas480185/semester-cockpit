@@ -69,7 +69,7 @@ try {
   const audit=await db().prepare("SELECT * FROM audit WHERE ownerId=?").bind(a.owner).all();
   check(audit.results.some(x=>x.entity==="tests" && x.actor==="Nutzer"),"Database audit includes actor and test changes");
   const tableSecurity=await engine.query<{relrowsecurity:boolean}>("SELECT relrowsecurity FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname='semester' AND c.relkind='r'");
-  check(tableSecurity.rows.length===16 && tableSecurity.rows.every(x=>x.relrowsecurity),"All 16 tables have RLS enabled");
+  check(tableSecurity.rows.length===17 && tableSecurity.rows.every(x=>x.relrowsecurity),"All 17 tables have RLS enabled");
   const permissions=await engine.query<{allowed:boolean}>("SELECT has_schema_privilege('anon','semester','USAGE') OR has_schema_privilege('authenticated','semester','USAGE') AS allowed");
   check(!permissions.rows[0].allowed,"Private schema is not accessible through the public Data API");
   await change([{entity:"modules",action:"create",data:{id:"undated",title:"Ohne Termin",code:"OT",color:"#6655cc",credits:5,target:60}}]);
