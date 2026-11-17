@@ -18,7 +18,7 @@ KI-Agenten über MCP Zugriff auf Lernstand und Unterlagen geben.
 ![MCP](https://img.shields.io/badge/MCP-Agenten_API-0F1B33)
 [![Checks](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml/badge.svg)](https://github.com/Jonas480185/semester-cockpit/actions/workflows/ci.yml)
 
-[**Demo öffnen**](https://semester-cockpit-demo.vercel.app/demo) · [Lokal starten](#lokal-starten) · [Funktionen](#funktionen) · [Screenshots](#screenshots) · [KI-Agenten und Fachchats](#ki-agenten-und-fachchats) · [Architektur](#architektur)
+[Lokal starten](#lokal-starten) · [Funktionen](#funktionen) · [Screenshots](#screenshots) · [KI-Agenten und Fachchats](#ki-agenten-und-fachchats) · [Architektur](#architektur)
 
 </div>
 
@@ -32,7 +32,7 @@ Semester Cockpit ist eine Web-App zur Lernorganisation. Ich habe sie für mein W
 
 Die App lässt sich über MCP mit externen KI-Agenten verbinden. Ein **Fachchat** ist dabei ein Lern-KI-Agent für ein bestimmtes Studienfach: Er greift auf den gespeicherten Lernstand und die freigegebenen Unterlagen zu, erklärt Lerninhalte und begleitet Übungen. Nach einer Lernsitzung kann er eine Rückmeldung im Cockpit speichern. Diese Daten stehen auch für spätere Sitzungen zur Verfügung.
 
-**Die [Demo](https://semester-cockpit-demo.vercel.app/demo) lässt sich im Browser oder lokal mit fiktiven Daten ausprobieren.** Sie benötigt kein Konto und keine Datenbank. Anmeldung, dauerhafte Speicherung, Datei-Upload und die Anbindung von KI-Agenten sind für eine separat eingerichtete private Instanz vorgesehen.
+**Die Demo lässt sich lokal mit fiktiven Daten ausprobieren.** Sie benötigt kein Konto und keine Datenbank. Anmeldung, dauerhafte Speicherung, Datei-Upload und die Anbindung von KI-Agenten sind für eine separat eingerichtete private Instanz vorgesehen.
 
 ## Funktionen
 
